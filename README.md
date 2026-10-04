@@ -1,7 +1,5 @@
 # Recurring Cost Tracker
 
-## Projektbeschreibung
-
 Eine einfache Konsolen-Anwendung in Python, mit der Studierende ihre wiederkehrenden Fixkosten (wie Miete, Krankenkasse oder Abonnements) an einem zentralen Ort verwalten können.
 
 Das Programm hilft dabei, den Überblick über die monatlichen Ausgaben zu behalten, das persönliche Budget zu prüfen und Kündigungsfristen rechtzeitig zu erkennen.
