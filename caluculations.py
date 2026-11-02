@@ -40,8 +40,51 @@ def ablauf_erinnerung_pruefen(vertraege):
 
 # User Story 5
 def monatsbetrag_berechnen(betrag, rhythmus):
-    """rechnet nicht-monatliche Verträge auf Monatsbetrag um."""
-    rythmus_bereinigt = rhythmus.strip().lower()
-    if rythmus_bereinigt in ["jährlich", "jaehrlich"]:
-        return betrag / 12
-    return betrag
+    #rechnet nicht-monatliche Verträge auf Monatsbetrag um.
+    rhythmus_bereinigt = rhythmus.strip().lower()
+    if rhythmus_bereinigt == "jährlich" or rhythmus_bereinigt == "jaerlich":
+        return betrag / 12.0
+    #Standart: monatlich
+    else:
+        return betrag
+
+def monatsueberblick_anzeigen(vertraege):
+    """
+    Finanzielle Monatsauswertung:
+    - Umrechnung auf Monatsbeträge
+    - Gruppierung nach Kategorie mit Zwischensummen
+    - Gesamttotal aller Fixkosten
+    """
+    if len(vertraege) == 0:
+        print("\nKeine Verträge vorhanden.\n")
+        return 0.0
+
+    #Alle eindeutigen Kategorien sammeln
+    kategorien = set()
+    for vertrag in vertraege:
+        kategorien.add(vertrag["kategorie"])
+
+    gesamttotal = 0.0
+    print("\n" + "=" * 35)
+    print("Finanzieller Monatüberblick")
+    print("=" * 35)
+
+    for kat in sorted(kategorien):
+        print(f"\nKategorie: {kat}")
+        zwischensumme = 0.0
+
+        for vertrag in vertraege:
+            if vertrag["kategorie"] == kat:
+                monatlicher_anteil = monatsbetrag_berechnen(vertrag["betrag"], vertrag["rhythmus"])
+                zwischensumme += monatlicher_anteil
+                print(f"  - {vertrag['name']}: CHF {monatlicher_anteil:.2f}/Mt. ({vertrag['betrag']:.2f} {vertrag['rhythmus']})")
+
+        print(f"--> Zwischensumme {kat}: CHF {zwischensumme:.2f}")
+        gesamttotal += zwischensumme
+
+    print("-" * 35)
+    print(f"Gesamttotal Monatskosten: CHF {gesamttotal:.2f}")
+    print("=" * 35 + "\n")
+
+    return gesamttotal
+
