@@ -9,7 +9,6 @@ DATEI_PFAD = "vertraege.json"
 
 def daten_laden():
     """Lädt die Verträge aus der JSON-Datei.
-    
     Falls die Datei noch nicht exisitert, wird eine leere Liste zurückgegeben.
     """
     try:
