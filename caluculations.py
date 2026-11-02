@@ -1,15 +1,20 @@
-# User Story 4
+"""
+Calculations - Logik &amp; Berechnungen für den Recurring Cost Tracker
+"""
+
+from datetime import date
+
 def tage_bis_datum(ablaufdatum_str):
     """
     Berechnet die verbleibenden Tage bis zum Ablaufdatum.
-    Liest das Format 'DD-MM-YYYY' ein.
+    Liest das Format 'YYYY-MM-DD' ein.
     """
     teile = ablaufdatum_str.split("-")
-    tag = int(teile[2])
-    monat = int(teile[1])
     jahr = int(teile[0])
+    monat = int(teile[1])
+    tag = int(teile[2])
 
-    ablauf = date(tag, monat, jahr)
+    ablauf = date(jahr, monat, tag)
     heute = date.today()
     differenz = (ablauf - heute).days
     return differenz
@@ -21,6 +26,9 @@ def ablauf_erinnerung_pruefen(vertraege):
     """
     warnungen_vorhanden = False
     for vertrag in vertraege:
+        if "ablaufdatum" not in vertrag or not vertrag["ablaufdatum"]:
+            continue
+
         verbleibende_tage = tage_bis_datum(vertrag["ablaufdatum"])
 
         #liegt in 7 oder weniger Tagen in der Zukunft (0 bis 7 Tage)
@@ -32,6 +40,8 @@ def ablauf_erinnerung_pruefen(vertraege):
 
 # User Story 5
 def monatsbetrag_berechnen(betrag, rhythmus):
-    #rechnet nicht-monatliche Verträge auf Monatsbetrag um.
-    rythmus_bereinigt = rythmus.strip().lower()
-    if rythmus_bereinigt == "jährlich" or rythmus_bereinigt == 
+    """rechnet nicht-monatliche Verträge auf Monatsbetrag um."""
+    rythmus_bereinigt = rhythmus.strip().lower()
+    if rythmus_bereinigt in ["jährlich", "jaehrlich"]:
+        return betrag / 12
+    return betrag
