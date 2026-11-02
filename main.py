@@ -4,6 +4,41 @@ Recurring Cost Tracker - Hauptprogramm
 Zur Steuerung der Konsole und für den Kontrollfluss.
 """
 
+def uebersicht_anzeigen(vertraege):
+    """US-02 Formatierte Tabellenanzeige aller Verträge"""
+    print("\n--- GESAMTÜBERSICHT ALLER VERTRÄGE ---")
+    if not vertraege:
+        print("Keine Verträge vorhanden.")
+        return
+
+    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
+    print("=" * 70)
+    for v in vertraege:
+        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
+
+def vertrag_löschen(vertraege):
+    """US-09: Löscht einen Vertrag nach ID."""
+    print("\n--- VERTRAG LÖSCHEN ---")
+    try:
+        ziel_id = int(input("Gebe die ID des zu löschenden Vertrages ein: "))
+    except ValueError:
+        print("Ungültige ID-Eingabe!")
+        return
+
+    for v in vertraege:
+        if v["id"] == ziel_id:
+            bestätigung = (input(f"Möchtest du '{v['name']}' wirklich löschen? (j/n): ") 
+            .strip()
+            .lower())
+            if bestätigung == "j":
+                vertraege.remove(v)
+                print("Vertrag erfolgreich gelöscht.")
+            else:
+                print("Löschen abgebrochen.")
+            return
+    print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
+
+
 def show_menu():
     """Gibt ein Menu in der Konsole aus"""
     print("=" * 35)
