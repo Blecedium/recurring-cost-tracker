@@ -3,6 +3,7 @@ Recurring Cost Tracker - Hauptprogramm
 Zur Steuerung der Konsole und für den Kontrollfluss.
 """
 
+# Daten einmalig aus der json Datei laden
 import json
 
 DATEI_PFAD = "vertraege.json"
@@ -76,6 +77,7 @@ def show_menu():
 def main():
     """Steuerung der Konsole"""
     print("Willkommen beim Recurring Cost Tracker")
+    vertraege = daten_laden()
 
     running =True
     while running:
@@ -86,10 +88,13 @@ def main():
             print("-> [In Arbeit] Vertrag neu erfassen...")
         elif choice == "2":
             print("-> [In Arbeit] Gesamtübersicht anzeigen...")
+            uebersicht_anzeigen(vertraege)
         elif choice == "3":
             print("-> [In Arbeit] Vertrag bearbeiten...")
         elif choice == "4":
             print("-> [In Arbeit] Vertrag löschen...")
+            vertrag_löschen(vertraege) 
+            daten_speichern(vertraege)
         elif choice == "5":
             print("-> [In Arbeit] Nach Kategorie filtern...")
         elif choice == "6":
@@ -98,6 +103,7 @@ def main():
             print("-> [In Arbeit] Kurze Kündigungsfristen anzeigen...")
         elif choice == "0":
             print("Programm wird beendet. Tschüss!")
+            daten_speichern(vertraege)
             running = False
         else:
             print("Ungültige Eingabe. Bitte eine Zahl zwischen 0 bis 7 wählen!")
