@@ -1,5 +1,5 @@
 """
-Calculations - Logik &amp; Berechnungen für den Recurring Cost Tracker
+Calculations - Logik & Berechnungen für den Recurring Cost Tracker
 """
 
 from datetime import date

@@ -1,0 +1,23 @@
+
+[
+    {
+        "id": 1,
+        "name": "Netflix",
+        "kategorie": "Streaming",
+        "betrag": 17.9,
+        "rhythmus": "monatlich",
+        "ablaufdatum": "2026-12-31",
+        "frist_tage": 30,
+        "notiz": "Kundennr. 987654"
+    },
+    {
+        "id": 2,
+        "name": "GA Schweiz",
+        "kategorie": "Transport",
+        "betrag": 3860.0,
+        "rhythmus": "jährlich",
+        "ablaufdatum": "2027-04-30",
+        "frist_tage": 60,
+        "notiz": ""
+    }
+]
