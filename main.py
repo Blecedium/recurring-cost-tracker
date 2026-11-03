@@ -1,9 +1,9 @@
 """
 Recurring Cost Tracker - Hauptprogramm
+
 Zur Steuerung der Konsole und für den Kontrollfluss.
 """
 
-# Daten einmalig aus der json Datei laden
 import json
 
 DATEI_PFAD = "vertraege.json"
@@ -36,6 +36,45 @@ def uebersicht_anzeigen(vertraege):
     for v in vertraege:
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
 
+def kategorie_filtern(vertraege):
+    #US-07: Nach Kategorie filtern
+
+    print("\n---Nach Kategorie filtern---")
+    if len(vertraege) == 0:
+        print("Keine Verträge vorhanden.")
+        return
+    
+#Leere Liste & keine Duplikate
+    kategorien = []
+    for vertrag in vertraege:
+        if vertrag ["kategorie"] not in kategorien:
+            kategorien.append(vertrag["kategorie"])
+
+#Verfügbare Kategorien angeben
+    print("Verfügbare Kategorien")
+    zaehler = 1
+    for kat in kategorien:
+        print(f" {zaehler}: {kat}")
+        zaehler += 1
+# Benutzereingabe &amp; Umrechnung auf Listen-Index 
+    eingabe = input(f"Bitte wähle eine Kategorie (1-{len(kategorien)}): ").strip()
+    index = int(eingabe) - 1
+    gewaehlte_kat = kategorien[index]
+
+# Gefundene Verträge in neuer Liste sammeln
+    gefundene = []
+    for vertrag in vertraege:
+           if vertrag ["kategorie"] == gewaehlte_kat:
+            gefundene.append(vertrag)
+
+# Ergebnisse
+    print(f"---verträge in Kategorie '{gewaehlte_kat}' ---")
+    print(f"{'ID':<4} / {'Name': <15} / {'Betrag':<10} / {'Frist': <8}")
+    print("=" * 70)
+    for vertraeg in gefundene:
+            print(f"{vertraeg['id']:<4} | {vertraeg['name']:<15} | {vertraeg['betrag']:<7.2f} CHF")
+            
+
 def vertrag_löschen(vertraege):
     """US-09: Löscht einen Vertrag nach ID."""
     print("\n--- VERTRAG LÖSCHEN ---")
@@ -59,6 +98,7 @@ def vertrag_löschen(vertraege):
     print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
 
 
+
 def show_menu():
     """Gibt ein Menu in der Konsole aus"""
     print("=" * 35)
@@ -77,7 +117,6 @@ def show_menu():
 def main():
     """Steuerung der Konsole"""
     print("Willkommen beim Recurring Cost Tracker")
-    vertraege = daten_laden()
 
     running =True
     while running:
@@ -88,13 +127,10 @@ def main():
             print("-> [In Arbeit] Vertrag neu erfassen...")
         elif choice == "2":
             print("-> [In Arbeit] Gesamtübersicht anzeigen...")
-            uebersicht_anzeigen(vertraege)
         elif choice == "3":
             print("-> [In Arbeit] Vertrag bearbeiten...")
         elif choice == "4":
             print("-> [In Arbeit] Vertrag löschen...")
-            vertrag_löschen(vertraege) 
-            daten_speichern(vertraege)
         elif choice == "5":
             print("-> [In Arbeit] Nach Kategorie filtern...")
         elif choice == "6":
@@ -103,10 +139,10 @@ def main():
             print("-> [In Arbeit] Kurze Kündigungsfristen anzeigen...")
         elif choice == "0":
             print("Programm wird beendet. Tschüss!")
-            daten_speichern(vertraege)
             running = False
         else:
             print("Ungültige Eingabe. Bitte eine Zahl zwischen 0 bis 7 wählen!")
 
 if __name__ == "__main__":
     main()
+
