@@ -36,6 +36,7 @@ def uebersicht_anzeigen(vertraege):
         print("Keine Verträge vorhanden.")
         return
 
+# Verträge in einer Liste mit Überschriften ausgeben
     print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
     print("=" * 70)
     for v in vertraege:
@@ -46,28 +47,34 @@ def uebersicht_anzeigen(vertraege):
 US-07: Nach Kategorie filtern
 """
 def kategorie_filtern(vertraege):
-
     print("\n--- NACH KATEGORIEN FILTERN ---")
     if not vertraege:
         print("Keine Verträge vorhanden.")
         return
     
-#Leere Liste & keine Duplikate
+# Leere Liste & keine Duplikate
     kategorien = []
     for vertrag in vertraege:
         if vertrag ["kategorie"] not in kategorien:
             kategorien.append(vertrag["kategorie"])
 
-#Verfügbare Kategorien angeben
+# Verfügbare Kategorien angeben
     print("Verfügbare Kategorien")
     zaehler = 1
     for kat in kategorien:
         print(f" {zaehler}: {kat}")
         zaehler += 1
-# Benutzereingabe &amp; Umrechnung auf Listen-Index 
+
+# Benutzereingabe & Umrechnung auf Listen-Index 
     eingabe = input(f"Bitte wähle eine Kategorie (1-{len(kategorien)}): ").strip()
-    index = int(eingabe) - 1
-    gewaehlte_kat = kategorien[index]
+    try:
+        index = int(eingabe) - 1
+        if index < 0:
+            raise IndexError
+        gewaehlte_kat = kategorien[index]
+    except (ValueError, IndexError):
+        print("Ungültige Auswahl! Bitte eine gültige Zahl aus der Liste eintragen.")
+        return
 
 # Gefundene Verträge in neuer Liste sammeln
     gefundene = []
@@ -75,12 +82,12 @@ def kategorie_filtern(vertraege):
            if vertrag ["kategorie"] == gewaehlte_kat:
             gefundene.append(vertrag)
 
-# Ergebnisse
-    print(f"---verträge in Kategorie '{gewaehlte_kat}' ---")
-    print(f"{'ID':<4} / {'Name': <15} / {'Betrag':<10} / {'Frist': <8}")
-    print("=" * 70)
-    for vertraeg in gefundene:
-            print(f"{vertraeg['id']:<4} | {vertraeg['name']:<15} | {vertraeg['betrag']:<7.2f} CHF")
+# Ergebnisse in einer Liste ausgeben
+    print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
+    print(f"{'ID':<4} | {'Name':<15} | {'Betrag':<10} | {'Frist': <8}")
+    print("=" * 55)
+    for v in gefundene:
+            print(f"{v['id']:<4} | {v['name']:<15} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage")
 
 
 """
@@ -139,7 +146,7 @@ def main():
     print("Willkommen beim Recurring Cost Tracker")
     vertraege = daten_laden()
 
-    running =True
+    running = True
     while running:
         show_menu()
         choice = input("Bitte wähle eine Option (0-7): ")
