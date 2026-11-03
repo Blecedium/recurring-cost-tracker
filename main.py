@@ -4,7 +4,14 @@ Zur Steuerung der Konsole und für den Kontrollfluss.
 """
 
 import json
+import os
+import subprocess
+import time
 
+
+"""
+Stellt die Importierte json zur Verfügung
+"""
 DATEI_PFAD = "vertraege.json"
 
 
@@ -28,9 +35,18 @@ def daten_speichern(vertraege):
 
 
 """
+Funktion um das Terminal zu leeren
+"""
+def clear_screen():
+    command = "cls" if os.name =="nt" else "clear"
+    subprocess.run(command, shell=True)
+
+
+"""
 US-01 Erfässt einen Vertrag und fügt diesen der Liste hinzu
 """
 def vertrag_erfassen(vertraege):
+    clear_screen()
     print("\n--- NEUEN VERTRAG ERFASSEN ---")
 
  # Fortlaufende ID erstellen
@@ -43,7 +59,7 @@ def vertrag_erfassen(vertraege):
         name = input("Name des Vertrages / Abo: ").strip()
 
 # Erfassen der Kategorie
-    kategorie = input(" Kategorie (z.B. Streaming, Krankenkasse) [Standard: Sonstiges]").strip().capitalize()
+    kategorie = input("Kategorie (z.B. Streaming, Krankenkasse) [Standard: Sonstiges]: ").strip().capitalize()
     if not kategorie:
         kategorie = "Sonstiges"
 
@@ -98,16 +114,19 @@ def vertrag_erfassen(vertraege):
     }
 
     vertraege.append(neuer_vertrag)
-    print("Vertrag erfolgreich erfasst.")
+    print(f"Vertrag {name} erfolgreich erfasst.")
+    time.sleep(2)
     
 
 """
 US-02 Formatierte Tabellenanzeige aller Verträge
 """
 def uebersicht_anzeigen(vertraege):
+    clear_screen()
     print("\n--- GESAMTÜBERSICHT ALLER VERTRÄGE ---")
     if not vertraege:
         print("Keine Verträge vorhanden.")
+        time.sleep(2)
         return
 
 # Verträge in einer Liste mit Überschriften ausgeben
@@ -116,14 +135,19 @@ def uebersicht_anzeigen(vertraege):
     for v in vertraege:
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
 
+# Warten auf Input
+    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+
 
 """
 US-07: Nach Kategorie filtern
 """
 def kategorie_filtern(vertraege):
+    clear_screen()
     print("\n--- NACH KATEGORIEN FILTERN ---")
     if not vertraege:
         print("Keine Verträge vorhanden.")
+        time.sleep(2)
         return
     
 # Leere Liste & keine Duplikate
@@ -148,6 +172,7 @@ def kategorie_filtern(vertraege):
         gewaehlte_kat = kategorien[index]
     except (ValueError, IndexError):
         print("Ungültige Auswahl! Bitte eine gültige Zahl aus der Liste eintragen.")
+        time.sleep(2)
         return
 
 # Gefundene Verträge in neuer Liste sammeln
@@ -157,26 +182,33 @@ def kategorie_filtern(vertraege):
             gefundene.append(vertrag)
 
 # Ergebnisse in einer Liste ausgeben
+    clear_screen()
     print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
     print(f"{'ID':<4} | {'Name':<15} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
     print("=" * 55)
     for v in gefundene:
             print(f"{v['id']:<4} | {v['name']:<15} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
 
+# Warten auf Input
+    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+
 
 """
 US-09: Löscht einen Vertrag nach ID
 """
 def vertrag_löschen(vertraege):
+    clear_screen()
     print("\n--- VERTRAG LÖSCHEN ---")
     if not vertraege:
             print("Keine Verträge vorhanden.")
+            time.sleep(2)
             return
     
     try:
         ziel_id = int(input("Gebe die ID des zu löschenden Vertrages ein: "))
     except ValueError:
         print("Ungültige ID-Eingabe!")
+        time.sleep(2)
         return
 
     for v in vertraege:
@@ -187,17 +219,20 @@ def vertrag_löschen(vertraege):
             if bestätigung == "j":
                 vertraege.remove(v)
                 print("Vertrag erfolgreich gelöscht.")
+                time.sleep(2)
             else:
                 print("Löschen abgebrochen.")
+                time.sleep(2)
             return
     print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
+    time.sleep(2)
 
 
 """
 Gibt ein Menu in der Konsole aus
 """
 def show_menu():
-
+    clear_screen()
     print("=" * 35)
     print("   RECURRING COST TRACKER")
     print("=" * 35)
