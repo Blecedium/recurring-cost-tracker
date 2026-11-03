@@ -4,8 +4,6 @@ Recurring Cost Tracker - Hauptprogramm
 Zur Steuerung der Konsole und für den Kontrollfluss.
 """
 
-<<<<<<< Updated upstream
-=======
 import json
 
 DATEI_PFAD = "vertraege.json"
@@ -38,17 +36,17 @@ def uebersicht_anzeigen(vertraege):
     for v in vertraege:
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
 
-def kategorie_filtern(vertaege):
+def kategorie_filtern(vertraege):
     #US-07: Nach Kategorie filtern
 
     print("\n---Nach Kategorie filtern---")
-    if len(vertaege) == 0:
+    if len(vertraege) == 0:
         print("Keine Verträge vorhanden.")
         return
     
 #Leere Liste & keine Duplikate
     kategorien = []
-    for vertrag in vertaege:
+    for vertrag in vertraege:
         if vertrag ["kategorie"] not in kategorien:
             kategorien.append(vertrag["kategorie"])
 
@@ -58,14 +56,14 @@ def kategorie_filtern(vertaege):
     for kat in kategorien:
         print(f" {zaehler}: {kat}")
         zaehler += 1
-# Benutzereingabe &amp; Umrechnung auf Listen-Index
+# Benutzereingabe &amp; Umrechnung auf Listen-Index 
     eingabe = input(f"Bitte wähle eine Kategorie (1-{len(kategorien)}): ").strip()
     index = int(eingabe) - 1
     gewaehlte_kat = kategorien[index]
 
 # Gefundene Verträge in neuer Liste sammeln
     gefundene = []
-    for vertrag in vertaege:
+    for vertrag in vertraege:
            if vertrag ["kategorie"] == gewaehlte_kat:
             gefundene.append(vertrag)
 
@@ -100,7 +98,7 @@ def vertrag_löschen(vertraege):
     print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
 
 
->>>>>>> Stashed changes
+
 def show_menu():
     """Gibt ein Menu in der Konsole aus"""
     print("=" * 35)
