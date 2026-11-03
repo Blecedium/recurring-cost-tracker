@@ -7,25 +7,30 @@ import json
 
 DATEI_PFAD = "vertraege.json"
 
+
+"""
+Lädt die Verträge aus der JSON-Datei. Falls die Datei noch nicht exisitert, wird eine leere Liste zurückgegeben.
+"""
 def daten_laden():
-    """
-    Lädt die Verträge aus der JSON-Datei.
-    Falls die Datei noch nicht exisitert, wird eine leere Liste zurückgegeben.
-    """
     try:
         with open(DATEI_PFAD, "r", encoding="utf-8") as datei:
             return json.load(datei)
     except (FileNotFoundError, json.JSONDecodeError):
         return[]
 
+
+"""
+Speichert die aktuelle Liste der Verträge in der JSON Datei
+"""
 def daten_speichern(vertraege):
-    """Speichert die aktuelle Liste der Verträge in der JSON Datei"""
     with open(DATEI_PFAD, "w", encoding="utf-8") as datei:
         json.dump(vertraege, datei,  indent=4, ensure_ascii=False)
 
 
+"""
+US-02 Formatierte Tabellenanzeige aller Verträge
+"""
 def uebersicht_anzeigen(vertraege):
-    """US-02 Formatierte Tabellenanzeige aller Verträge"""
     print("\n--- GESAMTÜBERSICHT ALLER VERTRÄGE ---")
     if not vertraege:
         print("Keine Verträge vorhanden.")
@@ -36,11 +41,14 @@ def uebersicht_anzeigen(vertraege):
     for v in vertraege:
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
 
-def kategorie_filtern(vertraege):
-    #US-07: Nach Kategorie filtern
 
-    print("\n---Nach Kategorie filtern---")
-    if len(vertraege) == 0:
+"""
+US-07: Nach Kategorie filtern
+"""
+def kategorie_filtern(vertraege):
+
+    print("\n--- NACH KATEGORIEN FILTERN ---")
+    if not vertraege:
         print("Keine Verträge vorhanden.")
         return
     
@@ -73,11 +81,17 @@ def kategorie_filtern(vertraege):
     print("=" * 70)
     for vertraeg in gefundene:
             print(f"{vertraeg['id']:<4} | {vertraeg['name']:<15} | {vertraeg['betrag']:<7.2f} CHF")
-            
 
+
+"""
+US-09: Löscht einen Vertrag nach ID
+"""
 def vertrag_löschen(vertraege):
-    """US-09: Löscht einen Vertrag nach ID."""
     print("\n--- VERTRAG LÖSCHEN ---")
+    if not vertraege:
+            print("Keine Verträge vorhanden.")
+            return
+    
     try:
         ziel_id = int(input("Gebe die ID des zu löschenden Vertrages ein: "))
     except ValueError:
@@ -98,9 +112,11 @@ def vertrag_löschen(vertraege):
     print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
 
 
-
+"""
+Gibt ein Menu in der Konsole aus
+"""
 def show_menu():
-    """Gibt ein Menu in der Konsole aus"""
+
     print("=" * 35)
     print("   RECURRING COST TRACKER")
     print("=" * 35)
@@ -114,8 +130,12 @@ def show_menu():
     print("0: Programm beenden")
     print("=" * 35)
 
+
+"""
+Steuerung der Konsole bzw. dem Menu
+"""
 def main():
-    """Steuerung der Konsole"""
+
     print("Willkommen beim Recurring Cost Tracker")
     vertraege = daten_laden()
 
