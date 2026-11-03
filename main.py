@@ -1,6 +1,5 @@
 """
 Recurring Cost Tracker - Hauptprogramm
-
 Zur Steuerung der Konsole und für den Kontrollfluss.
 """
 
@@ -9,7 +8,8 @@ import json
 DATEI_PFAD = "vertraege.json"
 
 def daten_laden():
-    """Lädt die Verträge aus der JSON-Datei.
+    """
+    Lädt die Verträge aus der JSON-Datei.
     Falls die Datei noch nicht exisitert, wird eine leere Liste zurückgegeben.
     """
     try:
@@ -134,7 +134,7 @@ def main():
             vertrag_löschen(vertraege)
             daten_speichern(vertraege)
         elif choice == "5":
-            print("-> [In Arbeit] Nach Kategorie filtern...")
+            kategorie_filtern(vertraege)
         elif choice == "6":
             print("-> [In Arbeit] Monatskosten und Budget prüfen...")
         elif choice == "7":
