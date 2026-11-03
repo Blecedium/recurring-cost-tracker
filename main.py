@@ -26,27 +26,28 @@ def daten_speichern(vertraege):
     with open(DATEI_PFAD, "w", encoding="utf-8") as datei:
         json.dump(vertraege, datei,  indent=4, ensure_ascii=False)
 
+
 """
 US-01 Erfässt einen Vertrag und fügt diesen der Liste hinzu
 """
 def vertrag_erfassen(vertraege):
     print("\n--- NEUEN VERTRAG ERFASSEN ---")
 
-    # Fortlaufende ID erstellen
+ # Fortlaufende ID erstellen
     neue_id = max([v['id'] for v in vertraege], default=0) + 1
 
-    # Erfassen des Namen
+# Erfassen des Namen
     name = input("Name des Vertages / Abo: ").strip()
     while not name:
         print("Der Name darf nicht leer sein!")
         name = input("Name des Vertrages / Abo: ").strip()
 
-    # Erfassen der Kategorie
+# Erfassen der Kategorie
     kategorie = input(" Kategorie (z.B. Streaming, Krankenkasse) [Standard: Sonstiges]").strip().capitalize()
     if not kategorie:
         kategorie = "Sonstiges"
 
-    # Betrag erfassen
+ # Betrag erfassen
     while True:
         try:
             betrag_eingabe = input("Betrag in CHF (z.B. 17.90): ").strip()
@@ -58,7 +59,7 @@ def vertrag_erfassen(vertraege):
         except ValueError:
             print("Ungültiger Betrag! Bitte positive Zahl eingeben.")
 
-    # Zahlungsrythmus erfassen
+# Zahlungsrythmus erfassen
     rhythmus = input("Zahlungsrhythmus (monatlich / jährlich) [Standard: monatlich]: ").strip().lower()
     if rhythmus not in ["monatlich", "jährlich", "jaehrlich"]:
         rhythmus = "monatlich"
@@ -66,7 +67,7 @@ def vertrag_erfassen(vertraege):
     # Ablaufdatum erfassen (optional)
     ablaufdatum = input("Ablaufdatum (YYYY-MM-DD, z.B. 2026-12-13) [optional]: ").strip()
 
-    # Kündigungsfrist in Tagen angeben
+# Kündigungsfrist in Tagen angeben
     while True:
         try:
             frist_eingabe = input("Kündigungsfrist in Tagen (z.B. 60) [Standard: 30]: ").strip()
@@ -81,10 +82,10 @@ def vertrag_erfassen(vertraege):
         except ValueError:
             print("Ungültige Eingabe!")
 
-    # Notitz erfassen (optional)
+# Notitz erfassen (optional)
     notiz = input("Kurze Notitz (z.B. Kundennummer) [optional]: ").strip()
 
-    # Vertrag dem Dictionarie hinzufügen
+# Vertrag dem Dictionarie hinzufügen
     neuer_vertrag = {
         "id": neue_id,
         "name": name,
