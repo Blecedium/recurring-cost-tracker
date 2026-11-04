@@ -203,7 +203,14 @@ def vertrag_löschen(vertraege):
             print("Keine Verträge vorhanden.")
             time.sleep(2)
             return
-    
+
+# Übersicht aller Verträge anzeigen
+    print("\nVorhandene Verträge:")
+    for v in vertraege:
+        print(f" ID {v['id']}: {v['name']} | Notiz: {v['notiz']}")
+    print("=" * 35)
+
+# Prüfung Eingabe (Zahl)    
     try:
         ziel_id = int(input("Gebe die ID des zu löschenden Vertrages ein: "))
     except ValueError:
@@ -211,11 +218,10 @@ def vertrag_löschen(vertraege):
         time.sleep(2)
         return
 
+# Prüfung eingegebene Zahl & bei gültigkeit löschung Vertrag
     for v in vertraege:
         if v["id"] == ziel_id:
-            bestätigung = (input(f"Möchtest du '{v['name']}' wirklich löschen? (j/n): ") 
-            .strip()
-            .lower())
+            bestätigung = (input(f"Möchtest du '{v['name']}' wirklich löschen? (j/n): ").strip().lower())
             if bestätigung == "j":
                 vertraege.remove(v)
                 print("Vertrag erfolgreich gelöscht.")
