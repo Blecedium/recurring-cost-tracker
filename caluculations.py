@@ -90,22 +90,30 @@ def monatsueberblick_anzeigen(vertraege):
 
 # User Story 6
 def budget_pruefen(vertraege, max_budget):
-    #Warnung bei >= 90 % Auslastung des Monatsbudgets.
+    # Warnung bei >= 90 % Auslastung des Monatsbudgets.
     if max_budget <= 0:
         return
+
     monatliche_gesamtkosten = 0.0
+
     for vertrag in vertraege:
-        monatliche_gesamtkosten += monatsbetrag_berechnen(vertrag["betrag"], vertrag["rhythmus"])
+        monatliche_gesamtkosten += monatsbetrag_berechnen(
+            vertrag["betrag"], vertrag["rhythmus"]
+        )
 
     grenzwert = max_budget * 0.90
+
     if monatliche_gesamtkosten >= grenzwert:
         print("Achtung: Nur noch weniger als 10 % des Monatsbudgets verfügbar!")
 
-    #Platzhalter für User Story 1(mit integrierter Budgetprüfung nach dem Erfassen gemäss User Story 6).
-    # vertrag_erfassen(vertraege, max_budget)
 
-    # User Story 6 nach neuem Eintrag direkt prüfen
-    budget_pruefen(vertraege, max_budget)
+
+
+
+
+
+
+
 
 
 #USer Story 4: Startalert vor dem Hauptmenü
@@ -115,7 +123,7 @@ while running:
     show_menu()
     choice = input("Bitte wähle eine Option (0-7:) ").strip()
     if choice =="1":
-        #User Story 1 Aufruf inkl. User Story 6 Prüfung
+        pass
     elif choice == "2":
         print("-> [In Arbeit / User Story 2] Stamm-Tabelle anzeigen...")
     elif choice == "3":
@@ -130,3 +138,7 @@ while running:
         print(f"Maximalbudget CHF {max_budget:.2f}")
         budget_pruefen(vertraege, max_budget)
         print()
+    elif choice == "0":
+        running = False
+    else:
+        print("Ungültige Eingabe!")
