@@ -7,7 +7,7 @@ import json
 import os
 import subprocess
 import time
-from calculations import (
+from calculation import (
     ablauf_erinnerung_pruefen,
     monatsueberblick_anzeigen,
     monatsbetrag_berechnen,
@@ -135,7 +135,7 @@ def uebersicht_anzeigen(vertraege):
         time.sleep(2)
         return
 
-# Verträge in einer Liste mit Überschriften ausgeben
+# Verträge in einer Liste mit Überschriften ausgegeben
     print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
     print("=" * 70)
     for v in vertraege:
@@ -213,7 +213,7 @@ def kategorie_filtern(vertraege):
            if vertrag ["kategorie"] == gewaehlte_kat:
             gefundene.append(vertrag)
 
-# Ergebnisse in einer Liste ausgeben
+# Ergebnisse in einer Liste ausgegeben
     clear_screen()
     print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
     print(f"{'ID':<4} | {'Name':<15} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
