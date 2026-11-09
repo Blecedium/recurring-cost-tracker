@@ -7,6 +7,12 @@ import json
 import os
 import subprocess
 import time
+from calculations import (
+    ablauf_erinnerung_pruefen,
+    monatsueberblick_anzeigen,
+    monatsbetrag_berechnen,
+    budget_pruefen
+)
 
 
 """
@@ -138,6 +144,32 @@ def uebersicht_anzeigen(vertraege):
 # Warten auf Input
     input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
 
+#USer Story 4: Startalert vor dem Hauptmenü
+ablauf_erinnerung_pruefen(vertraege)
+running = True
+while running:
+    show_menu()
+    choice = input("Bitte wähle eine Option (0-7:) ").strip()
+    if choice =="1":
+        pass
+    elif choice == "2":
+        print("-> [In Arbeit / User Story 2] Stamm-Tabelle anzeigen...")
+    elif choice == "3":
+ #User Story 5
+        monatsueberblick_anzeigen(vertraege)
+    elif choice == "4":
+#User Story 6
+        gesamtkosten =0.0
+        for v in vertraege:
+            gesamtkosten += monatsbetrag_berechnen(v["betrag"], v["rhythmus"])
+        print(f"\nAktuelle Monatskosten: CHF {gesamtkosten:.2f}")
+        print(f"Maximalbudget CHF {max_budget:.2f}")
+        budget_pruefen(vertraege, max_budget)
+        print()
+    elif choice == "0":
+        running = False
+    else:
+        print("Ungültige Eingabe!")
 
 """
 US-07: Nach Kategorie filtern
@@ -291,37 +323,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-from calculations import (
-    ablauf_erinnerung_pruefen,
-    monatsueberblick_anzeigen,
-    monatsbetrag_berechnen,
-    budget_pruefen
-)
-
-#USer Story 4: Startalert vor dem Hauptmenü
-ablauf_erinnerung_pruefen(vertraege)
-running = True
-while running:
-    show_menu()
-    choice = input("Bitte wähle eine Option (0-7:) ").strip()
-    if choice =="1":
-        pass
-    elif choice == "2":
-        print("-> [In Arbeit / User Story 2] Stamm-Tabelle anzeigen...")
-    elif choice == "3":
-        #User Story 5
-        monatsueberblick_anzeigen(vertraege)
-    elif choice == "4":
-        #User Story 6
-        gesamtkosten =0.0
-        for v in vertraege:
-            gesamtkosten += monatsbetrag_berechnen(v["betrag"], v["rhythmus"])
-        print(f"\nAktuelle Monatskosten: CHF {gesamtkosten:.2f}")
-        print(f"Maximalbudget CHF {max_budget:.2f}")
-        budget_pruefen(vertraege, max_budget)
-        print()
-    elif choice == "0":
-        running = False
-    else:
-        print("Ungültige Eingabe!")
