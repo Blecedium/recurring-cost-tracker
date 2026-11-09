@@ -7,7 +7,7 @@ import json
 import os
 import subprocess
 import time
-from calculation import (
+from calculations import (
     ablauf_erinnerung_pruefen,
     monatsueberblick_anzeigen,
     monatsbetrag_berechnen,
