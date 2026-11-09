@@ -37,6 +37,7 @@ def ablauf_erinnerung_pruefen(vertraege):
             warnungen_vorhanden = True
     if warnungen_vorhanden:
         print("=" * 35)
+    return warnungen_vorhanden
 
 # User Story 5
 def monatsbetrag_berechnen(betrag, rhythmus):
