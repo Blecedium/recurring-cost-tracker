@@ -144,7 +144,9 @@ def uebersicht_anzeigen(vertraege):
 # Warten auf Input
     input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
 
-#USer Story 4: Startalert vor dem Hauptmenü
+"""
+User Story 4: Startalert vor dem Hauptmenü
+"""
 ablauf_erinnerung_pruefen(vertraege)
 running = True
 while running:
@@ -155,10 +157,16 @@ while running:
     elif choice == "2":
         print("-> [In Arbeit / User Story 2] Stamm-Tabelle anzeigen...")
     elif choice == "3":
- #User Story 5
+
+"""
+User Story 5
+"""
         monatsueberblick_anzeigen(vertraege)
     elif choice == "4":
-#User Story 6
+
+"""
+User Story 6
+"""
         gesamtkosten =0.0
         for v in vertraege:
             gesamtkosten += monatsbetrag_berechnen(v["betrag"], v["rhythmus"])
