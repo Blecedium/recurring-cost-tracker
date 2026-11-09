@@ -101,79 +101,12 @@ def budget_pruefen(vertraege, max_budget):
     if monatliche_gesamtkosten >= grenzwert:
         print("Achtung: Nur noch weniger als 10 % des Monatsbudgets verfügbar!")
 
-def vertrag_erfassen(vertraege, max_budget):
     #Platzhalter für User Story 1(mit integrierter Budgetprüfung nach dem Erfassen gemäss User Story 6).
-    print("\n--- Neuen Vertrag erfassen ---")
-    neue_id = len(vertraege) + 1
-    name = input("Name des Abos: ").strip()
-    betrag = float(input("Betrag in CHF: "))
-    rhythmus = input("Rhythmus (monatlich / jaehrlich): ").strip().lower()
-    kategorie = input("Kategorie (z.B. Freizeit, Wohnen, Mobilität): ").strip()
-    first_tage = int(input("Kündigungsfrist in Tagen: "))
-    ablaufdatum = input("Ablaufdatum (DD-MM-YYYY): ")strip()
-    notiz = input("Notiz (oder '-' eingeben): ").strip()
-
-    neuer_vertrag ={
-        "id": neue_id,
-        "name": name,
-        "betrag": betrag,
-        "rhythmus": rhythmus,
-        "kategorie": kategorie,
-        "first_tage": first_tage,
-        "ablaufdatum": ablaufdatum,
-        "notiz": notiz,
-    }
-
-    vertraege.append(neuer_vertrag)
-    print(f"-> Vertrag '{name}' erfolgreich erfasst!\n")
+    # vertrag_erfassen(vertraege, max_budget)
 
     # User Story 6 nach neuem Eintrag direkt prüfen
     budget_pruefen(vertraege, max_budget)
 
-def show_menu():
-    #Gibt das Hauptmenü in der Konsole aus
-    print("=" * 35)
-    print("    Recurring cost Tracker")
-    print("=" * 35)
-    print("1: Neuen Vertrag erfassen")
-    print("2: Gesamtübersicht anzeigen")
-    print("3: Monatsüberblick anzeigen (User Story 5)")
-    print("4: Monatskosten und Budget prüfen (User Story 6)")
-    print("5: Kurze Kündigungsfristen anzeigen")
-    print("6: Nach Kategorie filtern")
-    print("7: Vertrag löschen")
-    print("8: Programm beenden")
-    print("=" * 35)
-
-def main():
-    #Steuerung der Konsole und Kontrollfluss
-    #1. Zentrale Variablen und Testdaten
-    max_budget = 200.00
-
-    vertraege = [
-        {
-            "id": 1,
-            "name": "Netflix",
-            "betrag": 19.90,
-            "rhythmus": "monatlich",
-            "kategorie": "Freizeit",
-            "first_tage": 30,
-            "ablaufdatum": "06-11-2026",
-            "notiz": "Standart-Abo",
-        },
-        {
-            "id": 2,
-            "name": "SBB Halbtax",
-            "betrag": 190.00,
-            "rhythmus": "jaerlich",
-            "kategorie": "Mobilität",
-            "first_tage": 60,
-            "ablaufdatum": "06-11-2027",
-            "notiz": "Gegenrechnung mit Reisespesen",
-        }
-    ]
-
-    print("Willkommen beim Recurring Cost Tracker\n")
 
 #USer Story 4: Startalert vor dem Hauptmenü
 ablauf_erinnerung_pruefen(vertraege)
@@ -197,17 +130,3 @@ while running:
         print(f"Maximalbudget CHF {max_budget:.2f}")
         budget_pruefen(vertraege, max_budget)
         print()
-    elif choice == "5":
-        print("-> [In Arbeit / User Story 8] Kurze Fristen anzeigen...")
-    elif choice == "6":
-        print("-> [In Arbeit / User Story 7] Nach Kategorie filtern...")
-    elif choice == "7":
-        print("-> [In Arbeit / User Story 9] Vertrag löschen...")
-    elif choice == "0":
-        print("Programm wird beendet.")
-        running = False
-    else:
-        print("Ungültige Eingabe. Bitte eine Zahl zwischen 0-7 wählen.")
-
-if __name__ == "__main__":
-    main()
