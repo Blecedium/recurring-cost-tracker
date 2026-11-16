@@ -192,6 +192,34 @@ def kategorie_filtern(vertraege):
 # Warten auf Input
     input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
 
+# US-08 Kündigungsfrist überprüfen
+
+def kurze_fristen_anzeigen(vertraege):
+    clear_screen()
+    print("\n --- Verträge mit kurzer Kündigungsfrist (<= 30 TAge) ---")
+
+    if not vertraege:
+        print("Keine Verträge vorhanden.")
+        time.sleep(2)
+        return
+
+# Filtern nach Frist <= 30 Tage
+
+    kurze_fristen = []
+    for vertrage in vertraege:
+        if vertrage ["frist_tage"] <= 30:
+            kurze_fristen.append(vertrage)
+
+    if not kurze_fristen:
+        print("Keine Vertrage mit kurzer Kündigungsfrist vorhanden.")
+    else:
+        print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
+        print("="*70)
+
+        for vertrag in kurze_fristen:
+            print(f"{vertrag['id']:<4} | {vertrag['name']:<15} | {vertrag['kategorie']:<12} | {vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}")
+
+    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
 
 """
 US-09: Löscht einen Vertrag nach ID
