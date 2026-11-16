@@ -233,6 +233,66 @@ def vertrag_löschen(vertraege):
     print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
     time.sleep(2)
 
+"""
+US-10: Vertäge nach Kosten sortieren
+"""
+def berechne_monatsbetrag(vertrag):
+    # Jährliche Beträge durch 12 teilen, um faire Monatskosten zu erhalten
+    if vertrag["rhythmus"] in ["jährlich", "jaehrlich"]:
+        return vertrag["betrag"] / 12
+    return vertrag["betrag"]
+# Hilfsfunktion zu US-10
+
+def kosten_sortieren(vertraege):
+    clear_screen()
+    print("\n--- VERTRÄGE NACH KOSTEN SORTIERT (TEUERSTE ZUERST) ---")
+
+    # Prüfen, ob die Liste leer ist (Truthiness)
+    if not vertraege:
+        print("Keine Vertäge vorhanden.")
+        input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+        return
+
+    # Alias vs Copy: Mit slicing [:] eine echte Kopie anlegen,damit die Originale-Reihenfolge der Vertäge in vertraege nicht verändert wird.
+    sortierte_vertraege = vertraege[:]
+
+    # (Nested Loops): Verschachtelte for-Schleifen zur Sortierung
+    anzahl = len(sortierte_vertraege)
+    for i in range(anzahl):
+        for j in range(i + 1, anzahl):
+            # Monatskosten vergleichen: Ist der hintere Vertrag teuerer, Plätze tauschen
+            if berechne_monatsbetrag(sortierte_vertraege[j]) > berechne_monatsbetrag(sortierte_vertraege[i]):
+                temp = sortierte_vertraege[i]
+                sortierte_vertraege[i] = sortierte_vertraege[j]
+                sortierte_vertraege[j] = temp
+
+    # Tabellenkop mit f-Strings formatieren (< linksbündig)
+    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Monatsbetrag':<14} | {'Notiz'}")
+    print("=" * 70)
+    for v in sortierte_vertraege:
+        monats_chf = berechne_monatsbetrag(v)
+        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {monats_chf:<10.2f} CHF | {v['notiz']}")
+
+    # Pause via Input(), bis der Nutzer Enter drückt
+    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+
+"""
+US-11: Nach dem Namen eines Abos suchen
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 """
 Gibt ein Menu in der Konsole aus
