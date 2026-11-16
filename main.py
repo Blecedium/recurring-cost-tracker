@@ -7,12 +7,19 @@ import json
 import os
 import subprocess
 import time
+from calculations import (
+    ablauf_erinnerung_pruefen,
+    monatsueberblick_anzeigen,
+    monatsbetrag_berechnen,
+    budget_pruefen
+)
 
 
 """
 Stellt die Importierte json zur Verfügung
 """
 DATEI_PFAD = "vertraege.json"
+MAX_BUDGET = 200.00 # Maximalbudget für die Budgetprüfung (US-06)
 
 
 """
@@ -129,7 +136,7 @@ def uebersicht_anzeigen(vertraege):
         time.sleep(2)
         return
 
-# Verträge in einer Liste mit Überschriften ausgeben
+# Verträge in einer Liste mit Überschriften ausgegeben
     print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
     print("=" * 70)
     for v in vertraege:
@@ -181,7 +188,7 @@ def kategorie_filtern(vertraege):
            if vertrag ["kategorie"] == gewaehlte_kat:
             gefundene.append(vertrag)
 
-# Ergebnisse in einer Liste ausgeben
+# Ergebnisse in einer Liste ausgegeben
     clear_screen()
     print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
     print(f"{'ID':<4} | {'Name':<15} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
@@ -351,4 +358,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

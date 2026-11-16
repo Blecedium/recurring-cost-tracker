@@ -22,7 +22,7 @@ def tage_bis_datum(ablaufdatum_str):
 def ablauf_erinnerung_pruefen(vertraege):
     """
     Liegt das Ablaufdatum eines Abos in 7 oder weniger Tagen in der Zukunft,
-    wird direkt beim Start der Anwendung vor dem Hauptmenü eine Warnmeldung ausgeben.
+    wird direkt beim Start der Anwendung vor dem Hauptmenü eine Warnmeldung ausgegeben.
     """
     warnungen_vorhanden = False
     for vertrag in vertraege:
@@ -33,10 +33,11 @@ def ablauf_erinnerung_pruefen(vertraege):
 
         #liegt in 7 oder weniger Tagen in der Zukunft (0 bis 7 Tage)
         if 0 <= verbleibende_tage <= 7:
-            print(f"Warnung: Das Abonnoment '{vertrag['name']}' läuft in {verbleibende_tage} Tagen ab am {vertrag['ablaufdatum']}!")
+            print(f"Warnung: Das Abonnement '{vertrag['name']}' läuft in {verbleibende_tage} Tagen ab am {vertrag['ablaufdatum']}!")
             warnungen_vorhanden = True
     if warnungen_vorhanden:
         print("=" * 35)
+    return warnungen_vorhanden
 
 # User Story 5
 def monatsbetrag_berechnen(betrag, rhythmus):
@@ -44,7 +45,7 @@ def monatsbetrag_berechnen(betrag, rhythmus):
     rhythmus_bereinigt = rhythmus.strip().lower()
     if rhythmus_bereinigt == "jährlich" or rhythmus_bereinigt == "jaerlich":
         return betrag / 12.0
-    #Standart: monatlich
+    #Standard: monatlich
     else:
         return betrag
 
@@ -66,7 +67,7 @@ def monatsueberblick_anzeigen(vertraege):
 
     gesamttotal = 0.0
     print("\n" + "=" * 35)
-    print("Finanzieller Monatüberblick")
+    print("Finanzieller Monatsüberblick")
     print("=" * 35)
 
     for kat in sorted(kategorien):
@@ -90,43 +91,18 @@ def monatsueberblick_anzeigen(vertraege):
 
 # User Story 6
 def budget_pruefen(vertraege, max_budget):
-    #Warnung bei >= 90 % Auslastung des Monatsbudgets.
+    # Warnung bei >= 90 % Auslastung des Monatsbudgets.
     if max_budget <= 0:
         return
+
     monatliche_gesamtkosten = 0.0
+
     for vertrag in vertraege:
-        monatliche_gesamtkosten += monatsbetrag_berechnen(vertrag["betrag"], vertrag["rhythmus"])
+        monatliche_gesamtkosten += monatsbetrag_berechnen(
+            vertrag["betrag"], vertrag["rhythmus"]
+        )
 
     grenzwert = max_budget * 0.90
+
     if monatliche_gesamtkosten >= grenzwert:
         print("Achtung: Nur noch weniger als 10 % des Monatsbudgets verfügbar!")
-
-    #Platzhalter für User Story 1(mit integrierter Budgetprüfung nach dem Erfassen gemäss User Story 6).
-    # vertrag_erfassen(vertraege, max_budget)
-
-    # User Story 6 nach neuem Eintrag direkt prüfen
-    budget_pruefen(vertraege, max_budget)
-
-
-#USer Story 4: Startalert vor dem Hauptmenü
-ablauf_erinnerung_pruefen(vertraege)
-running = True
-while running:
-    show_menu()
-    choice = input("Bitte wähle eine Option (0-7:) ").strip()
-    if choice =="1":
-        #User Story 1 Aufruf inkl. User Story 6 Prüfung
-    elif choice == "2":
-        print("-> [In Arbeit / User Story 2] Stamm-Tabelle anzeigen...")
-    elif choice == "3":
-        #User Story 5
-        monatsueberblick_anzeigen(vertraege)
-    elif choice == "4":
-        #User Story 6
-        gesamtkosten =0.0
-        for v in vertraege:
-            gesamtkosten += monatsbetrag_berechnen(v["betrag"], v["rhythmus"])
-        print(f"\nAktuelle Monatskosten: CHF {gesamtkosten:.2f}")
-        print(f"Maximalbudget CHF {max_budget:.2f}")
-        budget_pruefen(vertraege, max_budget)
-        print()
