@@ -1,490 +1,53 @@
 """
 Recurring Cost Tracker - Hauptprogramm
-Zur Steuerung der Konsole und für den Kontrollfluss.
 """
 
-import json
-import os
-import subprocess
-import time
-from calculations import (
-    ablauf_erinnerung_pruefen,
-    monatsueberblick_anzeigen,
-    monatsbetrag_berechnen,
-    budget_pruefen
-)
+import calculations
+import contracts
+import search_filter
+import storage
+import terminal
 
 
-"""
-Stellt die Importierte json zur Verfügung
-"""
-DATEI_PFAD = "vertraege.json"
-MAX_BUDGET = 200.00 # Maximalbudget für die Budgetprüfung (US-06)
 
-
-"""
-Lädt die Verträge aus der JSON-Datei. Falls die Datei noch nicht exisitert, wird eine leere Liste zurückgegeben.
-"""
-def daten_laden():
-    try:
-        with open(DATEI_PFAD, "r", encoding="utf-8") as datei:
-            return json.load(datei)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return[]
-
-
-"""
-Speichert die aktuelle Liste der Verträge in der JSON Datei
-"""
-def daten_speichern(vertraege):
-    with open(DATEI_PFAD, "w", encoding="utf-8") as datei:
-        json.dump(vertraege, datei,  indent=4, ensure_ascii=False)
-
-
-"""
-Funktion um das Terminal zu leeren
-"""
-def clear_screen():
-    command = "cls" if os.name =="nt" else "clear"
-    subprocess.run(command, shell=True)
-
-
-"""
-US-01 Erfässt einen Vertrag und fügt diesen der Liste hinzu
-"""
-def vertrag_erfassen(vertraege):
-    clear_screen()
-    print("\n--- NEUEN VERTRAG ERFASSEN ---")
-
- # Fortlaufende ID erstellen
-    neue_id = max([v['id'] for v in vertraege], default=0) + 1
-
-# Erfassen des Namen
-    name = input("Name des Vertages / Abo: ").strip()
-    while not name:
-        print("Der Name darf nicht leer sein!")
-        name = input("Name des Vertrages / Abo: ").strip()
-
-# Erfassen der Kategorie
-    kategorie = input("Kategorie (z.B. Streaming, Krankenkasse) [Standard: Sonstiges]: ").strip().capitalize()
-    if not kategorie:
-        kategorie = "Sonstiges"
-
- # Betrag erfassen
-    while True:
-        try:
-            betrag_eingabe = input("Betrag in CHF (z.B. 17.90): ").strip()
-            betrag = float(betrag_eingabe)
-            if betrag <= 0:
-                print("Ungültiger Betrag! Bitte positive Zahl eingeben.")
-            else:
-                break
-        except ValueError:
-            print("Ungültiger Betrag! Bitte positive Zahl eingeben.")
-
-# Zahlungsrythmus erfassen
-    rhythmus = input("Zahlungsrhythmus (monatlich / jährlich) [Standard: monatlich]: ").strip().lower()
-    if rhythmus not in ["monatlich", "jährlich", "jaehrlich"]:
-        rhythmus = "monatlich"
-
-    # Ablaufdatum erfassen (optional)
-    ablaufdatum = input("Ablaufdatum (YYYY-MM-DD, z.B. 2026-12-13) [optional]: ").strip()
-
-# Kündigungsfrist in Tagen angeben
-    while True:
-        try:
-            frist_eingabe = input("Kündigungsfrist in Tagen (z.B. 60) [Standard: 30]: ").strip()
-            if not frist_eingabe:
-                frist_tage = 30
-                break
-            frist_tage = int(frist_eingabe)
-            if frist_tage <0:
-                print("Bitte gültige Tageszahl (>=0) angeben!")
-            else:
-                break
-        except ValueError:
-            print("Ungültige Eingabe!")
-
-# Notitz erfassen (optional)
-    notiz = input("Kurze Notitz (z.B. Kundennummer) [optional]: ").strip()
-
-# Vertrag dem Dictionarie hinzufügen
-    neuer_vertrag = {
-        "id": neue_id,
-        "name": name,
-        "kategorie": kategorie,
-        "betrag": betrag,
-        "rhythmus": rhythmus,
-        "ablaufdatum": ablaufdatum,
-        "frist_tage": frist_tage,
-        "notiz": notiz,
-    }
-
-    vertraege.append(neuer_vertrag)
-    print(f"Vertrag {name} erfolgreich erfasst.")
-    time.sleep(2)
-    
-
-"""
-US-02 Formatierte Tabellenanzeige aller Verträge
-"""
-def uebersicht_anzeigen(vertraege):
-    clear_screen()
-    print("\n--- GESAMTÜBERSICHT ALLER VERTRÄGE ---")
-    if not vertraege:
-        print("Keine Verträge vorhanden.")
-        time.sleep(2)
-        return
-
-# Verträge in einer Liste mit Überschriften ausgegeben
-    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-    print("=" * 70)
-    for v in vertraege:
-        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
-
-# Warten auf Input
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
-
-
-"""
-US-03 Bearbeiten eines bestehenden Vertrag
-"""
-def vertrag_bearbeiten(vertraege):
-    clear_screen()
-    print("\n--- VERTRAG BEARBEITEN ---")
-
-    if not vertraege:
-        print("Keine Verträge vorhanden.")
-        time.sleep(2)
-        return
-
-# Übersicht für die Aktuellen Verträge anzeigen
-    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-    print("=" * 70)
-    for v in vertraege:
-        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
-    print("=" * 70)
-
-# Prüfung Eingabe (Zahl)
-    try:
-        ziel_id = int(input("Gib die ID des zu bearbeitenden Vertrag ein: "))
-    except ValueError:
-        print("Ungültige ID-Eingabe!")
-        time.sleep(2)
-        return
-    
-    ziel = None
-    for v in vertraege:
-        if v["id"] == ziel_id:
-            ziel = v
-            break
-
-# Prüfung eingegebene Zahl in Vertrag IDs vorhanden
-    if ziel is None:
-        print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
-        time.sleep(2)
-        return
-    print(f"\nBearbeite Vertrag '{ziel['name']}'. [Enter = alten Wert behalten]\n")
-
-# Felder einzeln druchgehen zum bearbeiten
-
-    # Name
-    eingabe = input(f"Name [{ziel['name']}]: ").strip()
-    if eingabe:
-        ziel["name"] = eingabe
-
-    # Kategorie
-    eingabe = input(f"Kategorie [{ziel['kategorie']}]: ").strip().capitalize()
-    if eingabe:
-        ziel["kategorie"] = eingabe
-
-    # Betrag
-    while True:
-        eingabe = input(f"Betrag in CHF [{ziel['betrag']:.2f}]: ").strip()
-        if not eingabe:
-            break
-        try:
-            neuer_betrag = float(eingabe)
-            if neuer_betrag <= 0:
-                print("Bitte einen positiven Betrag (> 0) eingeben")
-            else:
-                ziel['betrag'] = neuer_betrag
-                break
-        except ValueError:
-            print("Ungültige Eingabe! Bitte eine Zahl eingeben (19.90).")
-
-    # Zahlungsrythmus (monatlich / jährlich)
-    eingabe = input(f"Zahlungsrythmus [{ziel['rhythmus']}]: ").strip().lower()
-    if eingabe in ["monatlich", "jährlich", "jaehrlich"]:
-        ziel['rhythmus'] = eingabe
-
-    # Ablaufdatum
-    eingabe = input(f"Ablaufdatum [{ziel['ablaufdatum']}]: ").strip()
-    if eingabe:
-        ziel["ablaufdatum"] = eingabe
-
-    # Kündigungsfrist
-    while True:
-        eingabe = input(f"Kündigungsfrist in Tagen [{ziel['frist_tage']}]: ").strip()
-        if not eingabe:
-            break
-        try:
-            neue_frist = int(eingabe)
-            if neue_frist < 0:
-                print("Bitte eine Zahl grösser als 0 eingeben")
-            else:
-                ziel['frist_tage'] = neue_frist
-                break
-        except ValueError:
-            print("Ungültige Eingabe! Bitte eine Zahl eingeben.")
-
-    # Notiz
-    eingabe = input(f"Notiz [{ziel['notiz']}]: ").strip()
-    if eingabe:
-        ziel['notiz'] = eingabe
-
-    print(f"\nVertrag '{ziel['name']}' erfolgreich aktualisiert.")
-    time.sleep(2)
-
-
-"""
-US-07: Nach Kategorie filtern
-"""
-def kategorie_filtern(vertraege):
-    clear_screen()
-    print("\n--- NACH KATEGORIEN FILTERN ---")
-    if not vertraege:
-        print("Keine Verträge vorhanden.")
-        time.sleep(2)
-        return
-    
-# Leere Liste & keine Duplikate
-    kategorien = []
-    for vertrag in vertraege:
-        if vertrag ["kategorie"] not in kategorien:
-            kategorien.append(vertrag["kategorie"])
-
-# Verfügbare Kategorien angeben
-    print("Verfügbare Kategorien")
-    zaehler = 1
-    for kat in kategorien:
-        print(f" {zaehler}: {kat}")
-        zaehler += 1
-
-# Benutzereingabe & Umrechnung auf Listen-Index 
-    eingabe = input(f"Bitte wähle eine Kategorie (1-{len(kategorien)}): ").strip()
-    try:
-        index = int(eingabe) - 1
-        if index < 0:
-            raise IndexError
-        gewaehlte_kat = kategorien[index]
-    except (ValueError, IndexError):
-        print("Ungültige Auswahl! Bitte eine gültige Zahl aus der Liste eintragen.")
-        time.sleep(2)
-        return
-
-# Gefundene Verträge in neuer Liste sammeln
-    gefundene = []
-    for vertrag in vertraege:
-           if vertrag ["kategorie"] == gewaehlte_kat:
-            gefundene.append(vertrag)
-
-# Ergebnisse in einer Liste ausgegeben
-    clear_screen()
-    print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
-    print(f"{'ID':<4} | {'Name':<15} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-    print("=" * 55)
-    for v in gefundene:
-            print(f"{v['id']:<4} | {v['name']:<15} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
-
-# Warten auf Input
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
-
-# US-08 Kündigungsfrist überprüfen
-
-def kurze_fristen_anzeigen(vertraege):
-    clear_screen()
-    print("\n --- Verträge mit kurzer Kündigungsfrist (<= 30 TAge) ---")
-
-    if not vertraege:
-        print("Keine Verträge vorhanden.")
-        time.sleep(2)
-        return
-
-# Filtern nach Frist <= 30 Tage
-
-    kurze_fristen = []
-    for vertrage in vertraege:
-        if vertrage ["frist_tage"] <= 30:
-            kurze_fristen.append(vertrage)
-
-    if not kurze_fristen:
-        print("Keine Vertrage mit kurzer Kündigungsfrist vorhanden.")
-    else:
-        print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-        print("="*70)
-
-        for vertrag in kurze_fristen:
-            print(f"{vertrag['id']:<4} | {vertrag['name']:<15} | {vertrag['kategorie']:<12} | {vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}")
-
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
-
-"""
-US-09: Löscht einen Vertrag nach ID
-"""
-def vertrag_löschen(vertraege):
-    clear_screen()
-    print("\n--- VERTRAG LÖSCHEN ---")
-    if not vertraege:
-            print("Keine Verträge vorhanden.")
-            time.sleep(2)
-            return
-
-# Übersicht aller Verträge anzeigen
-    print("\nVorhandene Verträge:")
-    for v in vertraege:
-        print(f" ID {v['id']}: {v['name']} | Notiz: {v['notiz']}")
-    print("=" * 35)
-
-# Prüfung Eingabe (Zahl)    
-    try:
-        ziel_id = int(input("Gebe die ID des zu löschenden Vertrages ein: "))
-    except ValueError:
-        print("Ungültige ID-Eingabe!")
-        time.sleep(2)
-        return
-
-# Prüfung eingegebene Zahl & bei gültigkeit löschung Vertrag
-    for v in vertraege:
-        if v["id"] == ziel_id:
-            bestätigung = (input(f"Möchtest du '{v['name']}' wirklich löschen? (j/n): ").strip().lower())
-            if bestätigung == "j":
-                vertraege.remove(v)
-                print("Vertrag erfolgreich gelöscht.")
-                time.sleep(2)
-            else:
-                print("Löschen abgebrochen.")
-                time.sleep(2)
-            return
-    print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
-    time.sleep(2)
-
-"""
-US-10: Vertäge nach Kosten sortieren
-"""
-def berechne_monatsbetrag(vertrag):
-    # Jährliche Beträge durch 12 teilen, um faire Monatskosten zu erhalten
-    if vertrag["rhythmus"] in ["jährlich", "jaehrlich"]:
-        return vertrag["betrag"] / 12
-    return vertrag["betrag"]
-# Hilfsfunktion zu US-10
-
-def kosten_sortieren(vertraege):
-    clear_screen()
-    print("\n--- VERTRÄGE NACH KOSTEN SORTIERT (TEUERSTE ZUERST) ---")
-
-    # Prüfen, ob die Liste leer ist (Truthiness)
-    if not vertraege:
-        print("Keine Vertäge vorhanden.")
-        input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
-        return
-
-    # Alias vs Copy: Mit slicing [:] eine echte Kopie anlegen,damit die Originale-Reihenfolge der Vertäge in vertraege nicht verändert wird.
-    sortierte_vertraege = vertraege[:]
-
-    # (Nested Loops): Verschachtelte for-Schleifen zur Sortierung
-    anzahl = len(sortierte_vertraege)
-    for i in range(anzahl):
-        for j in range(i + 1, anzahl):
-            # Monatskosten vergleichen: Ist der hintere Vertrag teuerer, Plätze tauschen
-            if berechne_monatsbetrag(sortierte_vertraege[j]) > berechne_monatsbetrag(sortierte_vertraege[i]):
-                temp = sortierte_vertraege[i]
-                sortierte_vertraege[i] = sortierte_vertraege[j]
-                sortierte_vertraege[j] = temp
-
-    # Tabellenkop mit f-Strings formatieren (< linksbündig)
-    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Monatsbetrag':<14} | {'Notiz'}")
-    print("=" * 70)
-    for v in sortierte_vertraege:
-        monats_chf = berechne_monatsbetrag(v)
-        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {monats_chf:<10.2f} CHF | {v['notiz']}")
-
-    # Pause via Input(), bis der Nutzer Enter drückt
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
-
-"""
-US-11: Nach dem Namen eines Abos suchen
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-Gibt ein Menu in der Konsole aus
-"""
-def show_menu():
-    clear_screen()
-    print("=" * 35)
-    print("   RECURRING COST TRACKER")
-    print("=" * 35)
-    print("1: Neuen Vertrag erfassen")
-    print("2: Gesamtübersicht anzeigen")
-    print("3: Vertrag bearbeiten")
-    print("4: Vertrag löschen")
-    print("5: Nach Kategorie filtern")
-    print("6: Monatskosten und Budget prüfen")
-    print("7: Kurze Kündigungsfristen anzeigen")
-    print("0: Programm beenden")
-    print("=" * 35)
-
-
-"""
-Steuerung der Konsole bzw. dem Menu
-"""
 def main():
-
+    """
+    Zur Steuerung der Konsole und für den Kontrollfluss.
+    """
     print("Willkommen beim Recurring Cost Tracker")
-    vertraege = daten_laden()
+    print("Verwalte deine Fixkosten, Kündigungsfristen und behalte dein Budget im Blick.\n")
+
+    vertraege = storage.daten_laden()
+    calculations.ablauf_erinnerung_pruefen(vertraege)
 
     running = True
     while running:
-        show_menu()
-        choice = input("Bitte wähle eine Option (0-7): ")
+        terminal.show_menu()
+        choice = input("Bitte wähle eine Option (0-8): ")
 
         if choice == "1":
-            vertrag_erfassen(vertraege)
-            daten_speichern(vertraege)
+            contracts.vertrag_erfassen(vertraege)
         elif choice == "2":
-            uebersicht_anzeigen(vertraege)
+            contracts.uebersicht_anzeigen(vertraege)
         elif choice == "3":
-            vertrag_bearbeiten(vertraege)
-            daten_speichern(vertraege)
+            contracts.vertrag_bearbeiten(vertraege)
         elif choice == "4":
-            vertrag_löschen(vertraege)
-            daten_speichern(vertraege)
+            contracts.vertrag_löschen(vertraege)
         elif choice == "5":
-            kategorie_filtern(vertraege)
+            search_filter.kategorie_filtern(vertraege)
         elif choice == "6":
-            print("-> [In Arbeit] Monatskosten und Budget prüfen...")
+            calculations.monatsauswertung_anzeigen(vertraege)
         elif choice == "7":
-            print("-> [In Arbeit] Kurze Kündigungsfristen anzeigen...")
+            search_filter.kurze_fristen_anzeigen(vertraege)
+        elif choice == "8":
+            search_filter.kosten_sortieren(vertraege)
         elif choice == "0":
             print("Programm wird beendet. Tschüss!")
-            daten_speichern(vertraege)
+            storage.daten_speichern(vertraege)
             running = False
         else:
-            print("Ungültige Eingabe. Bitte eine Zahl zwischen 0 bis 7 wählen!")
+            print("Ungültige Eingabe. Bitte eine Zahl zwischen 0 bis 8 wählen!")
+            terminal.wait_2s()
 
 if __name__ == "__main__":
     main()

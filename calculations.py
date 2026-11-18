@@ -1,23 +1,27 @@
 """
-Calculations - Logik & Berechnungen für den Recurring Cost Tracker
+Finanzmathematische Logik und Datumsberechnungen
 """
-
 from datetime import date
+import config
+import terminal
+
 
 def tage_bis_datum(ablaufdatum_str):
     """
     Berechnet die verbleibenden Tage bis zum Ablaufdatum.
     Liest das Format 'YYYY-MM-DD' ein.
     """
-    teile = ablaufdatum_str.split("-")
-    jahr = int(teile[0])
-    monat = int(teile[1])
-    tag = int(teile[2])
+    try:
+        teile = ablaufdatum_str.split("-")
+        jahr = int(teile[0])
+        monat = int(teile[1])
+        tag = int(teile[2])
 
-    ablauf = date(jahr, monat, tag)
-    heute = date.today()
-    differenz = (ablauf - heute).days
-    return differenz
+        ablauf = date(jahr, monat, tag)
+        heute = date.today()
+        return (ablauf - heute).days
+    except (ValueError, IndexError, AttributeError):
+        return 999
 
 def ablauf_erinnerung_pruefen(vertraege):
     """
@@ -106,3 +110,14 @@ def budget_pruefen(vertraege, max_budget):
 
     if monatliche_gesamtkosten >= grenzwert:
         print("Achtung: Nur noch weniger als 10 % des Monatsbudgets verfügbar!")
+
+
+def monatsauswertung_anzeigen(vertraege):
+    """
+    Kombinierte Funktion
+    Monats- und Budgetauswertung
+    """
+    terminal.clear_screen()
+    monatsueberblick_anzeigen(vertraege)
+    budget_pruefen(vertraege, config.MAX_BUDGET)
+    input("\nDrücke [Enter], um zum Hauptmenu zurückzukehren...")
