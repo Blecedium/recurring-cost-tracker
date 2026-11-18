@@ -102,7 +102,7 @@ Akzeptanzkriterien
 
 ---
 
-### US-09 Vertrag löschen (Code: Cyrill Schreyvogel | Story: Thilaxan Balachandran)
+### US-09 Vertrag löschen (Thilaxan Balachandran)
 Als Nutzer möchte ich gekündigte Verträge aus der Liste löschen, damit sie nicht mehr mitberechnet werden.
 
 Akzeptanzkriterien
@@ -129,7 +129,7 @@ Ergibt die Suche keinen Treffer, wird eine Meldung wie "Kein Vertrag mit dem Suc
 
 ---
 
-### US-12 Zusätzliches Notizfeld (Code: Cyrill Schreyvogel | Story: Vithuschan Jeyatharan)
+### US-12 Zusätzliches Notizfeld (Vithuschan Jeyatharan)
 Als Nutzer möchte ich eine kurze Textnotiz zu einem Vertrag hinterlegen können wie zum Beispiel Kundennummer oder Login-E-Mail damit ich alle relevanten Infos zum Abo direkt parat habe.
 
 Akzeptanzkriterien:
