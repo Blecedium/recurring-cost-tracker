@@ -14,11 +14,18 @@ def main():
     """
     Zur Steuerung der Konsole und für den Kontrollfluss.
     """
-    print("Willkommen beim Recurring Cost Tracker")
-    print("Verwalte deine Fixkosten, Kündigungsfristen und behalte dein Budget im Blick.\n")
+    terminal.clear_screen()
+    print("=" * 45)
+    print("WILLKOMMEN BEIM RECURRING COST TRACKER")
+    print("Verwalte deine Fixkosten, Kündigungsfristen und behalte dein Budget im Blick.")
+    print("=" * 45 + "\n")
 
     vertraege = storage.daten_laden()
-    calculations.ablauf_erinnerung_pruefen(vertraege)
+
+    # US-04: Erinnerung vor dem Menu anzeigen
+    hat_warnung = calculations.ablauf_erinnerung_pruefen(vertraege)
+    if hat_warnung:
+        input("\nDrücke [Enter], um zum Hauptmenu zu gelangen...")
 
     running = True
     while running:
