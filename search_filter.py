@@ -1,10 +1,13 @@
+"""
+Auswertungs-, Filter- und Sortierfunktionen
+"""
 import terminal
 
 
-"""
-US-07: Nach Kategorie filtern
-"""
 def kategorie_filtern(vertraege):
+    """
+    US-07: Nach Kategorie filtern
+    """
     terminal.clear_screen()
     print("\n--- NACH KATEGORIEN FILTERN ---")
     if not vertraege:
@@ -54,11 +57,11 @@ def kategorie_filtern(vertraege):
 # Warten auf Input
     input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
 
-"""
-US-08 Kündigungsfrist überprüfen
-"""
 
 def kurze_fristen_anzeigen(vertraege):
+    """
+    US-08 Kündigungsfrist überprüfen
+    """
     terminal.clear_screen()
     print("\n --- Verträge mit kurzer Kündigungsfrist (<= 30 TAge) ---")
 
@@ -86,10 +89,10 @@ def kurze_fristen_anzeigen(vertraege):
     input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
 
 
-"""
-US-10: Vertäge nach Kosten sortieren
-"""
 def berechne_monatsbetrag(vertrag):
+    """
+    US-10: Vertäge nach Kosten sortieren
+    """
     # Jährliche Beträge durch 12 teilen, um faire Monatskosten zu erhalten
     if vertrag["rhythmus"] in ["jährlich", "jaehrlich"]:
         return vertrag["betrag"] / 12

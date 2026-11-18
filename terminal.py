@@ -1,21 +1,26 @@
+"""
+Hilfsfunktionen für die Benutzeroberfläche
+"""
+
+
 import os
 import subprocess
 import time
 
 
-"""
-Funktion um das Terminal zu leeren
-"""
 def clear_screen():
+    """
+    Funktion um das Terminal zu leeren
+    """
     command = "cls" if os.name =="nt" else "clear"
     subprocess.run(command, shell=True)
     print("\n")
 
 
-"""
-Gibt ein Menu in der Konsole aus
-"""
 def show_menu():
+    """
+    Gibt das Menu in der Konsole aus
+    """
     clear_screen()
     print("=" * 35)
     print("   RECURRING COST TRACKER")
@@ -32,8 +37,8 @@ def show_menu():
     print("=" * 35)
 
 
-"""
-Lässt das Terminal 2 Sek. warten
-"""
 def wait_2s():
+    """
+    Lässt das Terminal 2 Sek. warten
+    """
     time.sleep(2)

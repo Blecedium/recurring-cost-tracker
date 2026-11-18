@@ -1,11 +1,14 @@
+"""
+Vertragsverwaltung und bearbeitung
+"""
 import terminal
 import storage
 
 
-"""
-US-01 Erfässt einen Vertrag und fügt diesen der Liste hinzu
-"""
 def vertrag_erfassen(vertraege):
+    """
+    US-01 Erfässt einen Vertrag und fügt diesen der Liste hinzu
+    """
     terminal.clear_screen()
     print("\n--- NEUEN VERTRAG ERFASSEN ---")
 
@@ -79,10 +82,10 @@ def vertrag_erfassen(vertraege):
     terminal.wait_2s()
 
 
-"""
-US-02 Formatierte Tabellenanzeige aller Verträge
-"""
 def uebersicht_anzeigen(vertraege):
+    """
+    US-02 Formatierte Tabellenanzeige aller Verträge
+    """
     terminal.clear_screen()
     print("\n--- GESAMTÜBERSICHT ALLER VERTRÄGE ---")
     if not vertraege:
@@ -100,10 +103,10 @@ def uebersicht_anzeigen(vertraege):
     input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
 
 
-"""
-US-03 Bearbeiten eines bestehenden Vertrag
-"""
 def vertrag_bearbeiten(vertraege):
+    """
+    US-03 Bearbeiten eines bestehenden Vertrag
+    """
     terminal.clear_screen()
     print("\n--- VERTRAG BEARBEITEN ---")
 
@@ -202,10 +205,10 @@ def vertrag_bearbeiten(vertraege):
     terminal.wait_2s()
 
 
-"""
-US-09: Löscht einen Vertrag nach ID
-"""
 def vertrag_löschen(vertraege):
+    """
+    US-09: Löscht einen Vertrag nach ID
+    """
     terminal.clear_screen()
     print("\n--- VERTRAG LÖSCHEN ---")
     if not vertraege:

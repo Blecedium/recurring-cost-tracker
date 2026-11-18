@@ -1,3 +1,7 @@
+"""
+Recurring Cost Tracker - Hauptprogramm
+"""
+
 import calculations
 import contracts
 import search_filter
@@ -5,12 +9,11 @@ import storage
 import terminal
 
 
-"""
-Recurring Cost Tracker - Hauptprogramm
-Zur Steuerung der Konsole und für den Kontrollfluss.
-"""
-def main():
 
+def main():
+    """
+    Zur Steuerung der Konsole und für den Kontrollfluss.
+    """
     print("Willkommen beim Recurring Cost Tracker")
     print("Verwalte deine Fixkosten, Kündigungsfristen und behalte dein Budget im Blick.\n")
 
