@@ -140,6 +140,107 @@ def uebersicht_anzeigen(vertraege):
 
 
 """
+US-03 Bearbeiten eines bestehenden Vertrag
+"""
+def vertrag_bearbeiten(vertraege):
+    clear_screen()
+    print("\n--- VERTRAG BEARBEITEN ---")
+
+    if not vertraege:
+        print("Keine Verträge vorhanden.")
+        time.sleep(2)
+        return
+
+# Übersicht für die Aktuellen Verträge anzeigen
+    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
+    print("=" * 70)
+    for v in vertraege:
+        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
+    print("=" * 70)
+
+# Prüfung Eingabe (Zahl)
+    try:
+        ziel_id = int(input("Gib die ID des zu bearbeitenden Vertrag ein: "))
+    except ValueError:
+        print("Ungültige ID-Eingabe!")
+        time.sleep(2)
+        return
+    
+    ziel = None
+    for v in vertraege:
+        if v["id"] == ziel_id:
+            ziel = v
+            break
+
+# Prüfung eingegebene Zahl in Vertrag IDs vorhanden
+    if ziel is None:
+        print(f"Vertrag mit ID {ziel_id} nicht gefunden.")
+        time.sleep(2)
+        return
+    print(f"\nBearbeite Vertrag '{ziel['name']}'. [Enter = alten Wert behalten]\n")
+
+# Felder einzeln druchgehen zum bearbeiten
+
+    # Name
+    eingabe = input(f"Name [{ziel['name']}]: ").strip()
+    if eingabe:
+        ziel["name"] = eingabe
+
+    # Kategorie
+    eingabe = input(f"Kategorie [{ziel['kategorie']}]: ").strip().capitalize()
+    if eingabe:
+        ziel["kategorie"] = eingabe
+
+    # Betrag
+    while True:
+        eingabe = input(f"Betrag in CHF [{ziel['betrag']:.2f}]: ").strip()
+        if not eingabe:
+            break
+        try:
+            neuer_betrag = float(eingabe)
+            if neuer_betrag <= 0:
+                print("Bitte einen positiven Betrag (> 0) eingeben")
+            else:
+                ziel['betrag'] = neuer_betrag
+                break
+        except ValueError:
+            print("Ungültige Eingabe! Bitte eine Zahl eingeben (19.90).")
+
+    # Zahlungsrythmus (monatlich / jährlich)
+    eingabe = input(f"Zahlungsrythmus [{ziel['rhythmus']}]: ").strip().lower()
+    if eingabe in ["monatlich", "jährlich", "jaehrlich"]:
+        ziel['rhythmus'] = eingabe
+
+    # Ablaufdatum
+    eingabe = input(f"Ablaufdatum [{ziel['ablaufdatum']}]: ").strip()
+    if eingabe:
+        ziel["ablaufdatum"] = eingabe
+
+    # Kündigungsfrist
+    while True:
+        eingabe = input(f"Kündigungsfrist in Tagen [{ziel['frist_tage']}]: ").strip()
+        if not eingabe:
+            break
+        try:
+            neue_frist = int(eingabe)
+            if neue_frist < 0:
+                print("Bitte eine Zahl grösser als 0 eingeben")
+            else:
+                ziel['frist_tage'] = neue_frist
+                break
+        except ValueError:
+            print("Ungültige Eingabe! Bitte eine Zahl eingeben.")
+
+    # Notiz
+    eingabe = input(f"Notiz [{ziel['notiz']}]: ").strip()
+    if eingabe:
+        ziel['notiz'] = eingabe
+
+    print(f"\nVertrag '{ziel['name']}' erfolgreich aktualisiert.")
+    time.sleep(2)
+
+
+"""
 US-07: Nach Kategorie filtern
 """
 def kategorie_filtern(vertraege):
@@ -272,7 +373,8 @@ def main():
         elif choice == "2":
             uebersicht_anzeigen(vertraege)
         elif choice == "3":
-            print("-> [In Arbeit] Vertrag bearbeiten...")
+            vertrag_bearbeiten(vertraege)
+            daten_speichern(vertraege)
         elif choice == "4":
             vertrag_löschen(vertraege)
             daten_speichern(vertraege)
@@ -291,4 +393,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
