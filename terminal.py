@@ -1,5 +1,5 @@
 """
-Hilfsfunktionen für die Benutzeroberfläche
+Hilfsfunktionen für die Benutzeroberfläche und Textausgaben
 """
 
 
@@ -42,3 +42,27 @@ def wait_2s():
     Lässt das Terminal 2 Sek. warten
     """
     time.sleep(2)
+
+
+# Wiederkehrende Text-Variablen
+MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
+MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
+MSG_ZURUECK_MENU = "\n Drücke [Enter], um zum Hauptmenü zurückzukehren..."
+
+
+# Willkommens Nachricht
+def zeige_willkommen():
+    print("=" * 55)
+    print("WILLKOMMEN BEIM RECURRING COST TRACKER")
+    print("Verwalte deine laufenden Fixkosten, behalte dein Budget")
+    print("=" * 55 + "\n")
+
+
+# Einheitliche Tabellenausgabe
+def zeige_tabelle(vertraege):
+    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
+    print("=" * 70)
+    for vertrag in vertraege:
+        print(f"{vertrag['id']:<4} | {vertrag['name']:<15} | {vertrag['kategorie']:<12} | "
+            f"{vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}"
+        )

@@ -7,7 +7,6 @@ import contracts
 import search_filter
 import storage
 import terminal
-import messages
 
 
 
@@ -16,7 +15,7 @@ def main():
     Zur Steuerung der Konsole und für den Kontrollfluss.
     """
     terminal.clear_screen()
-    messages.zeige_willkommen()
+    terminal.zeige_willkommen()
 
 
     vertraege = storage.daten_laden()
