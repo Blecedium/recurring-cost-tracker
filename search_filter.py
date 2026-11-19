@@ -2,7 +2,6 @@
 Auswertungs-, Filter- und Sortierfunktionen
 """
 import terminal
-import messages
 
 
 
@@ -13,7 +12,7 @@ def kategorie_filtern(vertraege):
     terminal.clear_screen()
     print("\n--- NACH KATEGORIEN FILTERN ---")
     if not vertraege:
-        print(messages.MSG_KEINE_VERTRAEGE)
+        print(terminal.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
         return
     
@@ -51,10 +50,10 @@ def kategorie_filtern(vertraege):
 # Ergebnisse in einer Liste ausgegeben
     terminal.clear_screen()
     print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
-    messages.zeige_tabelle(gefundene)
+    terminal.zeige_tabelle(gefundene)
 
 # Warten auf Input
-    input(messages.MSG_ZURUECK_MENU)
+    input(terminal.MSG_ZURUECK_MENU)
 
 
 def kurze_fristen_anzeigen(vertraege):
@@ -65,7 +64,7 @@ def kurze_fristen_anzeigen(vertraege):
     print("\n --- Verträge mit kurzer Kündigungsfrist (<= 30 Tage) ---")
 
     if not vertraege:
-        print(messages.MSG_KEINE_VERTRAEGE)
+        print(terminal.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
         return
 
@@ -79,9 +78,9 @@ def kurze_fristen_anzeigen(vertraege):
     if not kurze_fristen:
         print("Keine Verträge mit kurzer Kündigungsfrist vorhanden.")
     else:
-        messages.zeige_tabelle(kurze_fristen)
+        terminal.zeige_tabelle(kurze_fristen)
 
-    input(messages.MSG_ZURUECK_MENU)
+    input(terminal.MSG_ZURUECK_MENU)
     
 
 
@@ -101,8 +100,8 @@ def kosten_sortieren(vertraege):
 
     # Prüfen, ob die Liste leer ist (Truthiness)
     if not vertraege:
-        print(messages.MSG_KEINE_VERTRAEGE)
-        input(messages.MSG_ZURUECK_MENU)
+        print(terminal.MSG_KEINE_VERTRAEGE)
+        input(terminal.MSG_ZURUECK_MENU)
         return
 
     # Alias vs Copy: Mit slicing [:] eine echte Kopie anlegen,damit die Originale-Reihenfolge der Vertäge in vertraege nicht verändert wird.
@@ -126,7 +125,7 @@ def kosten_sortieren(vertraege):
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {monats_chf:<10.2f} CHF | {v['notiz']}")
 
     # Pause via Input(), bis der Nutzer Enter drückt
-    input(messages.MSG_ZURUECK_MENU)
+    input(terminal.MSG_ZURUECK_MENU)
 
 
 """
