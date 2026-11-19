@@ -25,7 +25,7 @@ def main():
     if hat_warnung:
         input("\nDrücke [Enter], um zum Hauptmenu zu gelangen...")
     else:
-        terminal.wait_2s()
+        terminal.wait_4s()
 
     while True:
         terminal.show_menu()

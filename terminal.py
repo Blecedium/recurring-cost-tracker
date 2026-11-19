@@ -44,6 +44,13 @@ def wait_2s():
     time.sleep(2)
 
 
+def wait_4s():
+    """
+    Lässt das Terminal 4 Sek. warten
+    """
+    time.sleep(2)
+
+
 # Wiederkehrende Text-Variablen
 MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
 MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
