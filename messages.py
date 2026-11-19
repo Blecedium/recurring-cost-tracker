@@ -22,3 +22,4 @@ def zeige_tabelle(vertraege):
         print(f"{vertrag['id']:<4} | {vertrag['name']:<15} | {vertrag['kategorie']:<12} | "
             f"{vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}"
         )
+

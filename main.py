@@ -7,6 +7,7 @@ import contracts
 import search_filter
 import storage
 import terminal
+import messages
 
 
 
@@ -15,10 +16,8 @@ def main():
     Zur Steuerung der Konsole und für den Kontrollfluss.
     """
     terminal.clear_screen()
-    print("=" * 45)
-    print("WILLKOMMEN BEIM RECURRING COST TRACKER")
-    print("Verwalte deine Fixkosten, Kündigungsfristen und behalte dein Budget im Blick.")
-    print("=" * 45 + "\n")
+    messages.zeige_willkommen()
+
 
     vertraege = storage.daten_laden()
 

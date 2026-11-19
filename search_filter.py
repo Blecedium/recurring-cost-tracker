@@ -2,6 +2,8 @@
 Auswertungs-, Filter- und Sortierfunktionen
 """
 import terminal
+import messages
+
 
 
 def kategorie_filtern(vertraege):
@@ -11,7 +13,7 @@ def kategorie_filtern(vertraege):
     terminal.clear_screen()
     print("\n--- NACH KATEGORIEN FILTERN ---")
     if not vertraege:
-        print("Keine Verträge vorhanden.")
+        print(messages.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
         return
     
@@ -49,13 +51,10 @@ def kategorie_filtern(vertraege):
 # Ergebnisse in einer Liste ausgegeben
     terminal.clear_screen()
     print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
-    print(f"{'ID':<4} | {'Name':<15} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-    print("=" * 55)
-    for v in gefundene:
-            print(f"{v['id']:<4} | {v['name']:<15} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
+    messages.zeige_tabelle(gefundene)
 
 # Warten auf Input
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+    input(messages.MSG_ZURUECK_MENU)
 
 
 def kurze_fristen_anzeigen(vertraege):
@@ -63,30 +62,27 @@ def kurze_fristen_anzeigen(vertraege):
     US-08 Kündigungsfrist überprüfen
     """
     terminal.clear_screen()
-    print("\n --- Verträge mit kurzer Kündigungsfrist (<= 30 TAge) ---")
+    print("\n --- Verträge mit kurzer Kündigungsfrist (<= 30 Tage) ---")
 
     if not vertraege:
-        print("Keine Verträge vorhanden.")
+        print(messages.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
         return
 
 # Filtern nach Frist <= 30 Tage
 
     kurze_fristen = []
-    for vertrage in vertraege:
-        if vertrage ["frist_tage"] <= 30:
-            kurze_fristen.append(vertrage)
+    for vertrag in vertraege:
+        if vertrag ["frist_tage"] <= 30:
+            kurze_fristen.append(vertrag)
 
     if not kurze_fristen:
-        print("Keine Vertrage mit kurzer Kündigungsfrist vorhanden.")
+        print("Keine Verträge mit kurzer Kündigungsfrist vorhanden.")
     else:
-        print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-        print("="*70)
+        messages.zeige_tabelle(kurze_fristen)
 
-        for vertrag in kurze_fristen:
-            print(f"{vertrag['id']:<4} | {vertrag['name']:<15} | {vertrag['kategorie']:<12} | {vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}")
-
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+    input(messages.MSG_ZURUECK_MENU)
+    
 
 
 def berechne_monatsbetrag(vertrag):
@@ -105,8 +101,8 @@ def kosten_sortieren(vertraege):
 
     # Prüfen, ob die Liste leer ist (Truthiness)
     if not vertraege:
-        print("Keine Vertäge vorhanden.")
-        input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+        print(messages.MSG_KEINE_VERTRAEGE)
+        input(messages.MSG_ZURUECK_MENU)
         return
 
     # Alias vs Copy: Mit slicing [:] eine echte Kopie anlegen,damit die Originale-Reihenfolge der Vertäge in vertraege nicht verändert wird.
@@ -130,7 +126,7 @@ def kosten_sortieren(vertraege):
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {monats_chf:<10.2f} CHF | {v['notiz']}")
 
     # Pause via Input(), bis der Nutzer Enter drückt
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+    input(messages.MSG_ZURUECK_MENU)
 
 
 """
