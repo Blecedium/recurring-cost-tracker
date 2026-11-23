@@ -212,21 +212,20 @@ def vertrag_löschen(vertraege):
     terminal.clear_screen()
     print("\n--- VERTRAG LÖSCHEN ---")
     if not vertraege:
-            print("Keine Verträge vorhanden.")
+            print(terminal.MSG_KEINE_VERTRAEGE)
             terminal.wait_2s()
             return
 
 # Übersicht aller Verträge anzeigen
     print("\nVorhandene Verträge:")
-    for v in vertraege:
-        print(f" ID {v['id']}: {v['name']} | Notiz: {v['notiz']}")
-    print("=" * 35)
+    terminal.zeige_tabelle(vertraege)
+    print("=" * 70)
 
 # Prüfung Eingabe (Zahl)    
     try:
         ziel_id = int(input("Gebe die ID des zu löschenden Vertrages ein: "))
     except ValueError:
-        print("Ungültige ID-Eingabe!")
+        print(terminal.MSG_UNGUELTIGE_EINGABE)
         terminal.wait_2s()
         return
 
