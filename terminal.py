@@ -48,7 +48,7 @@ def wait_4s():
     """
     Lässt das Terminal 4 Sek. warten
     """
-    time.sleep(2)
+    time.sleep(4)
 
 
 # Wiederkehrende Text-Variablen
