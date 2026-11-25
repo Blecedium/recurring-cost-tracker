@@ -54,7 +54,7 @@ def wait_4s():
 # Wiederkehrende Text-Variablen
 MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
 MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
-MSG_ZURUECK_MENU = "\n Drücke [Enter], um zum Hauptmenü zurückzukehren..."
+MSG_ZURUECK_MENU = "\nDrücke [Enter], um zum Hauptmenü zurückzukehren..."
 
 
 # Willkommens Nachricht

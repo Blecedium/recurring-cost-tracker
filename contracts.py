@@ -94,10 +94,7 @@ def uebersicht_anzeigen(vertraege):
         return
 
 # Verträge in einer Liste mit Überschriften ausgegeben
-    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-    print("=" * 70)
-    for v in vertraege:
-        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
+    terminal.zeige_tabelle(vertraege)
 
 # Warten auf Input
     input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
@@ -116,11 +113,7 @@ def vertrag_bearbeiten(vertraege):
         return
 
 # Übersicht für die Aktuellen Verträge anzeigen
-    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-    print("=" * 70)
-    for v in vertraege:
-        print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {v['betrag']:<7.2f} CHF | {v['frist_tage']:<4} Tage | {v['notiz']}")
-    print("=" * 70)
+    terminal.zeige_tabelle(vertraege)
 
 # Prüfung Eingabe (Zahl)
     try:
