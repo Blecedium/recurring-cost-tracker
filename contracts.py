@@ -205,7 +205,7 @@ def vertrag_bearbeiten(vertraege):
     terminal.wait_2s()
 
 
-def vertrag_löschen(vertraege):
+def vertrag_loeschen(vertraege):
     """
     US-09: Löscht einen Vertrag nach ID
     """

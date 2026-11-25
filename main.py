@@ -44,7 +44,7 @@ def main():
         elif choice == 3:
             contracts.vertrag_bearbeiten(vertraege)
         elif choice == 4:
-            contracts.vertrag_löschen(vertraege)
+            contracts.vertrag_loeschen(vertraege)
         elif choice == 5:
             search_filter.kategorie_filtern(vertraege)
         elif choice == 6:
