@@ -10,7 +10,7 @@ def vertrag_erfassen(vertraege):
     US-01 Erfässt einen Vertrag und fügt diesen der Liste hinzu
     """
     terminal.clear_screen()
-    print("\n--- NEUEN VERTRAG ERFASSEN ---")
+    terminal.zeige_titel("Neuen Vertrag erfassen")
 
  # Fortlaufende ID erstellen
     neue_id = max([v['id'] for v in vertraege], default=0) + 1
@@ -87,7 +87,7 @@ def uebersicht_anzeigen(vertraege):
     US-02 Formatierte Tabellenanzeige aller Verträge
     """
     terminal.clear_screen()
-    print("\n--- GESAMTÜBERSICHT ALLER VERTRÄGE ---")
+    terminal.zeige_titel("Neuen Vertrag erfassen")
     if not vertraege:
         print("Keine Verträge vorhanden.")
         terminal.wait_2s()
@@ -105,10 +105,10 @@ def vertrag_bearbeiten(vertraege):
     US-03 Bearbeiten eines bestehenden Vertrag
     """
     terminal.clear_screen()
-    print("\n--- VERTRAG BEARBEITEN ---")
+    terminal.zeige_titel("Vertrag bearbeiten")
 
     if not vertraege:
-        print("Keine Verträge vorhanden.")
+        print(terminal.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
         return
 
@@ -119,7 +119,7 @@ def vertrag_bearbeiten(vertraege):
     try:
         ziel_id = int(input("Gib die ID des zu bearbeitenden Vertrag ein: "))
     except ValueError:
-        print("Ungültige ID-Eingabe!")
+        print(terminal.MSG_UNGUELTIGE_EINGABE)
         terminal.wait_2s()
         return
     
@@ -203,7 +203,7 @@ def vertrag_loeschen(vertraege):
     US-09: Löscht einen Vertrag nach ID
     """
     terminal.clear_screen()
-    print("\n--- VERTRAG LÖSCHEN ---")
+    terminal.zeige_titel("Vertrag löschen")
     if not vertraege:
             print(terminal.MSG_KEINE_VERTRAEGE)
             terminal.wait_2s()

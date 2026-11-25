@@ -10,7 +10,7 @@ def kategorie_filtern(vertraege):
     US-07: Nach Kategorie filtern
     """
     terminal.clear_screen()
-    print("\n--- NACH KATEGORIEN FILTERN ---")
+    terminal.zeige_titel("Nach Kategorie filtern")
     if not vertraege:
         print(terminal.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
@@ -49,11 +49,11 @@ def kategorie_filtern(vertraege):
 
 # Ergebnisse in einer Liste ausgegeben
     terminal.clear_screen()
-    print(f"--- Verträge in Kategorie '{gewaehlte_kat}' ---")
+    terminal.zeige_titel(f"Verträge in Kategorie '{gewaehlte_kat}'")
     terminal.zeige_tabelle(gefundene)
 
 # Warten auf Input
-    input(terminal.MSG_ZURUECK_MENU)
+    terminal.pause_enter()
 
 
 def kurze_fristen_anzeigen(vertraege):
@@ -61,7 +61,7 @@ def kurze_fristen_anzeigen(vertraege):
     US-08 Kündigungsfrist überprüfen
     """
     terminal.clear_screen()
-    print("\n --- Verträge mit kurzer Kündigungsfrist (<= 30 Tage) ---")
+    terminal.zeige_titel("Verträge mit kurzer Kündigungsfrist (<= 30 Tage)")
 
     if not vertraege:
         print(terminal.MSG_KEINE_VERTRAEGE)
@@ -80,7 +80,7 @@ def kurze_fristen_anzeigen(vertraege):
     else:
         terminal.zeige_tabelle(kurze_fristen)
 
-    input(terminal.MSG_ZURUECK_MENU)
+    terminal.pause_enter()
     
 
 
@@ -96,12 +96,12 @@ def berechne_monatsbetrag(vertrag):
 
 def kosten_sortieren(vertraege):
     terminal.clear_screen()
-    print("\n--- VERTRÄGE NACH KOSTEN SORTIERT (TEUERSTE ZUERST) ---")
+    terminal.zeige_titel("VERTRÄGE NACH KOSTEN SORTIERT (TEUERSTE ZUERST)")
 
     # Prüfen, ob die Liste leer ist (Truthiness)
     if not vertraege:
         print(terminal.MSG_KEINE_VERTRAEGE)
-        input(terminal.MSG_ZURUECK_MENU)
+        terminal.pause_enter()
         return
 
     # Alias vs Copy: Mit slicing [:] eine echte Kopie anlegen,damit die Originale-Reihenfolge der Vertäge in vertraege nicht verändert wird.
@@ -125,7 +125,7 @@ def kosten_sortieren(vertraege):
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {monats_chf:<10.2f} CHF | {v['notiz']}")
 
     # Pause via Input(), bis der Nutzer Enter drückt
-    input(terminal.MSG_ZURUECK_MENU)
+    terminal.pause_enter()
 
 
 """

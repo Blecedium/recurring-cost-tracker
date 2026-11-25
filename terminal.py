@@ -8,6 +8,12 @@ import subprocess
 import time
 
 
+# Wiederkehrende Text-Variablen
+MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
+MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
+MSG_ZURUECK_MENU = "\nDrücke [Enter], um zum Hauptmenü zurückzukehren..."
+
+
 def clear_screen():
     """
     Funktion um das Terminal zu leeren
@@ -51,10 +57,18 @@ def wait_4s():
     time.sleep(4)
 
 
-# Wiederkehrende Text-Variablen
-MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
-MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
-MSG_ZURUECK_MENU = "\nDrücke [Enter], um zum Hauptmenü zurückzukehren..."
+def pause_enter():
+    """
+    Pausiert bis Enter grdrückt wird
+    """
+    input(MSG_ZURUECK_MENU)
+
+
+def zeige_titel(titel):
+    """
+    Gibt die Überschrift des Abschnittes aus
+    """
+    print(f"\n--- {titel.upper()} ---")
 
 
 # Willkommens Nachricht
