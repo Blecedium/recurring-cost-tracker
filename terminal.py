@@ -34,16 +34,28 @@ def show_menu():
     print("   RECURRING COST TRACKER")
     print("=" * 35)
     print("1: Neuen Vertrag erfassen")
-    print("2: Gesamtübersicht anzeigen")
+    print("2: Verträge anzeigen (Übersicht und Filtern)")
     print("3: Vertrag bearbeiten")
     print("4: Vertrag löschen")
-    print("5: Nach Kategorie filtern")
-    print("6: Monatskosten und Budget prüfen")
-    print("7: Kurze Kündigungsfristen anzeigen")
-    print("8: Kostensortierung")
+    print("5: Monatskosten und Budget prüfen")
     print("0: Programm beenden")
     print("=" * 35)
 
+
+def show_submenu():
+    """
+    Gibt das Untermenü für die Anzeigen Funktionen aus
+    """
+    clear_screen()
+    print("=" * 35)
+    print(" VERTRÄGE ANZEIGEN UND AUSWERTEN")
+    print("=" * 35)
+    print("1: Gesamtübersicht (alle Verträge)")
+    print("2: Nach Kategorie filtern")
+    print("3: Kurze Kündigungsfristen (<= 30 Tage)")
+    print("4: Nach Monatskosten sortieren")
+    print("0: Zurück zum Hauptmenü")
+    print("=" * 35)
 
 def wait_2s():
     """
