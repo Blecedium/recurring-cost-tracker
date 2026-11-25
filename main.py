@@ -23,7 +23,7 @@ def main():
     # US-04: Erinnerung vor dem Menu anzeigen
     hat_warnung = calculations.ablauf_erinnerung_pruefen(vertraege)
     if hat_warnung:
-        input("\nDrücke [Enter], um zum Hauptmenu zu gelangen...")
+        terminal.pause_enter()
     else:
         terminal.wait_4s()
 
@@ -33,7 +33,7 @@ def main():
         try:
             choice = int(choice_input)
         except ValueError:
-            print("Ungültige Eingabe. Bitte eine Zahl (0-8) eingeben.")
+            print(terminal.MSG_MENU_ZAHLEN_UNGUELTIG)
             terminal.wait_2s()
             continue
 
@@ -58,7 +58,7 @@ def main():
             storage.daten_speichern(vertraege)
             break
         else:
-            print("Ungültige Eingabe. Bitte eine Zahl zwischen 0 bis 8 wählen!")
+            print(terminal.MSG_MENU_ZAHLEN_UNGUELTIG)
             terminal.wait_2s()
 
 if __name__ == "__main__":
