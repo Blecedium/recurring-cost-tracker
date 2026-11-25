@@ -32,11 +32,11 @@ def vertrag_erfassen(vertraege):
             betrag_eingabe = input("Betrag in CHF (z.B. 17.90): ").strip()
             betrag = float(betrag_eingabe)
             if betrag <= 0:
-                print("Ungültiger Betrag! Bitte positive Zahl eingeben.")
+                print(terminal.MSG_POSITIVE_ZAHL)
             else:
                 break
         except ValueError:
-            print("Ungültiger Betrag! Bitte positive Zahl eingeben.")
+            print(terminal.MSG_POSITIVE_ZAHL)
 
 # Zahlungsrythmus erfassen
     rhythmus = input("Zahlungsrhythmus (monatlich / jährlich) [Standard: monatlich]: ").strip().lower()
@@ -55,7 +55,7 @@ def vertrag_erfassen(vertraege):
                 break
             frist_tage = int(frist_eingabe)
             if frist_tage <0:
-                print("Bitte gültige Tageszahl (>=0) angeben!")
+                print(terminal.MSG_POSITIVE_ZAHL)
             else:
                 break
         except ValueError:
@@ -87,9 +87,9 @@ def uebersicht_anzeigen(vertraege):
     US-02 Formatierte Tabellenanzeige aller Verträge
     """
     terminal.clear_screen()
-    terminal.zeige_titel("Neuen Vertrag erfassen")
+    terminal.zeige_titel("Gesamtübersicht aller Verträge")
     if not vertraege:
-        print("Keine Verträge vorhanden.")
+        print(terminal.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
         return
 
@@ -97,7 +97,7 @@ def uebersicht_anzeigen(vertraege):
     terminal.zeige_tabelle(vertraege)
 
 # Warten auf Input
-    input("\nDrücke [Enter], um zum Hauptmenü zurückzukehren...")
+    terminal.pause_enter()
 
 
 def vertrag_bearbeiten(vertraege):
@@ -156,12 +156,12 @@ def vertrag_bearbeiten(vertraege):
         try:
             neuer_betrag = float(eingabe)
             if neuer_betrag <= 0:
-                print("Bitte einen positiven Betrag (> 0) eingeben")
+                print(terminal.MSG_POSITIVE_ZAHL)
             else:
                 ziel['betrag'] = neuer_betrag
                 break
         except ValueError:
-            print("Ungültige Eingabe! Bitte eine Zahl eingeben (19.90).")
+            print(terminal.MSG_POSITIVE_ZAHL)
 
     # Zahlungsrythmus (monatlich / jährlich)
     eingabe = input(f"Zahlungsrythmus [{ziel['rhythmus']}]: ").strip().lower()
@@ -181,12 +181,12 @@ def vertrag_bearbeiten(vertraege):
         try:
             neue_frist = int(eingabe)
             if neue_frist < 0:
-                print("Bitte eine Zahl grösser als 0 eingeben")
+                print(terminal.MSG_POSITIVE_ZAHL)
             else:
                 ziel['frist_tage'] = neue_frist
                 break
         except ValueError:
-            print("Ungültige Eingabe! Bitte eine Zahl eingeben.")
+            print(terminal.MSG_POSITIVE_ZAHL)
 
     # Notiz
     eingabe = input(f"Notiz [{ziel['notiz']}]: ").strip()
@@ -212,7 +212,6 @@ def vertrag_loeschen(vertraege):
 # Übersicht aller Verträge anzeigen
     print("\nVorhandene Verträge:")
     terminal.zeige_tabelle(vertraege)
-    print("=" * 70)
 
 # Prüfung Eingabe (Zahl)    
     try:

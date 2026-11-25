@@ -12,6 +12,7 @@ import time
 MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
 MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
 MSG_ZURUECK_MENU = "\nDrücke [Enter], um zum Hauptmenü zurückzukehren..."
+MSG_POSITIVE_ZAHL = "\nBitte eine fültige Zahl grösser als 0 eingeben."
 
 
 def clear_screen():
@@ -85,5 +86,5 @@ def zeige_tabelle(vertraege):
     print("=" * 70)
     for vertrag in vertraege:
         print(f"{vertrag['id']:<4} | {vertrag['name']:<15} | {vertrag['kategorie']:<12} | "
-            f"{vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}"
-        )
+            f"{vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}")
+    print("=" * 70)
