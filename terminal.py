@@ -12,7 +12,7 @@ import time
 MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
 MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
 MSG_ZURUECK_MENU = "\nDrücke [Enter], um zum Hauptmenü zurückzukehren..."
-MSG_POSITIVE_ZAHL = "\nBitte eine fültige Zahl grösser als 0 eingeben."
+MSG_POSITIVE_ZAHL = "\nBitte eine gültige Zahl grösser als 0 eingeben."
 
 
 def clear_screen():

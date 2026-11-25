@@ -59,7 +59,7 @@ def vertrag_erfassen(vertraege):
             else:
                 break
         except ValueError:
-            print("Ungültige Eingabe!")
+            print(terminal.MSG_UNGUELTIGE_EINGABE)
 
 # Notitz erfassen (optional)
     notiz = input("Kurze Notitz (z.B. Kundennummer) [optional]: ").strip()
