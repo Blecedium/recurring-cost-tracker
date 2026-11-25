@@ -45,7 +45,9 @@ def ablauf_erinnerung_pruefen(vertraege):
 
 # User Story 5
 def monatsbetrag_berechnen(betrag, rhythmus):
-    #rechnet nicht-monatliche Verträge auf Monatsbetrag um.
+    """
+    Rechnet nicht-monatliche Verträge auf Monatsbetrag um.
+    """
     rhythmus_bereinigt = rhythmus.strip().lower()
     if rhythmus_bereinigt == "jährlich" or rhythmus_bereinigt == "jaerlich":
         return betrag / 12.0
@@ -61,7 +63,7 @@ def monatsueberblick_anzeigen(vertraege):
     - Gesamttotal aller Fixkosten
     """
     if len(vertraege) == 0:
-        print("\nKeine Verträge vorhanden.\n")
+        print(terminal.MSG_KEINE_VERTRAEGE)
         return 0.0
 
     #Alle eindeutigen Kategorien sammeln
@@ -70,9 +72,7 @@ def monatsueberblick_anzeigen(vertraege):
         kategorien.add(vertrag["kategorie"])
 
     gesamttotal = 0.0
-    print("\n" + "=" * 35)
-    print("Finanzieller Monatsüberblick")
-    print("=" * 35)
+    terminal.zeige_titel("Finanzieller Monatsüberblick")
 
     for kat in sorted(kategorien):
         print(f"\nKategorie: {kat}")
@@ -120,4 +120,4 @@ def monatsauswertung_anzeigen(vertraege):
     terminal.clear_screen()
     monatsueberblick_anzeigen(vertraege)
     budget_pruefen(vertraege, config.MAX_BUDGET)
-    input("\nDrücke [Enter], um zum Hauptmenu zurückzukehren...")
+    terminal.pause_enter()
