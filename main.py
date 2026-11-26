@@ -17,7 +17,6 @@ def main():
     terminal.clear_screen()
     terminal.zeige_willkommen()
 
-
     vertraege = storage.daten_laden()
 
     # US-04: Erinnerung vor dem Menu anzeigen
