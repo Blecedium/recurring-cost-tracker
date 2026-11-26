@@ -102,7 +102,7 @@ def kosten_sortieren(vertraege):
     # Prüfen, ob die Liste leer ist (Truthiness)
     if not vertraege:
         print(terminal.MSG_KEINE_VERTRAEGE)
-        terminal.pause_enter()
+        terminal.wait_2s()
         return
 
     # Alias vs Copy: Mit slicing [:] eine echte Kopie anlegen,damit die Originale-Reihenfolge der Vertäge in vertraege nicht verändert wird.
@@ -118,12 +118,13 @@ def kosten_sortieren(vertraege):
                 sortierte_vertraege[i] = sortierte_vertraege[j]
                 sortierte_vertraege[j] = temp
 
-    # Tabellenkop mit f-Strings formatieren (< linksbündig)
+    # Tabellenkopf mit f-Strings formatieren (< linksbündig)
     print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Monatsbetrag':<14} | {'Notiz'}")
     print("=" * 70)
     for v in sortierte_vertraege:
         monats_chf = berechne_monatsbetrag(v)
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {monats_chf:<10.2f} CHF | {v['notiz']}")
+    print("=" * 70)
 
     # Pause via Input(), bis der Nutzer Enter drückt
     terminal.pause_enter()
@@ -133,6 +134,14 @@ def untermenu_anzeigen(vertraege):
     """
     Steuert das Untermenu für die verschiedenen Ansichten
     """
+
+    # Falls keine Verträge vorhanden sind, direkt abweisen
+    if not vertraege:
+        print(terminal.MSG_KEINE_VERTRAEGE)
+        terminal.wait_2s()
+        return
+
+    # Eingabe aufforderung und prüfung der Eingabe
     while True:
         terminal.show_submenu()
         choice_input = input("Bitte wähle eine Ansicht (0-4): ").strip()

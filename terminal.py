@@ -49,7 +49,7 @@ def show_submenu():
     """
     clear_screen()
     print("=" * 35)
-    print(" VERTRÄGE ANZEIGEN UND AUSWERTEN")
+    print("  VERTRÄGE ANZEIGEN UND AUSWERTEN")
     print("=" * 35)
     print("1: Gesamtübersicht (alle Verträge)")
     print("2: Nach Kategorie filtern")
