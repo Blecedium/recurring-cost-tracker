@@ -2,6 +2,7 @@
 Auswertungs-, Filter- und Sortierfunktionen
 """
 import terminal
+import contracts
 
 
 
@@ -127,6 +128,34 @@ def kosten_sortieren(vertraege):
     # Pause via Input(), bis der Nutzer Enter drückt
     terminal.pause_enter()
 
+
+def untermenu_anzeigen(vertraege):
+    """
+    Steuert das Untermenu für die verschiedenen Ansichten
+    """
+    while True:
+        terminal.show_submenu()
+        choice_input = input("Bitte wähle eine Ansicht (0-4): ").strip()
+        try:
+            sub_choice = int(choice_input)
+        except ValueError:
+            print(terminal.MSG_SUBMENU_ZAHLEN_UNGUELTIG)
+            terminal.wait_2s()
+            continue
+
+        if sub_choice == 1:
+            contracts.uebersicht_anzeigen(vertraege)
+        elif sub_choice == 2:
+            kategorie_filtern(vertraege)
+        elif sub_choice == 3:
+            kurze_fristen_anzeigen(vertraege)
+        elif sub_choice == 4:
+            kosten_sortieren(vertraege)
+        elif sub_choice == 0:
+            break
+        else:
+            print(terminal.MSG_SUBMENU_ZAHLEN_UNGUELTIG)
+            terminal.wait_2s()
 
 """
 US-11: Nach dem Namen eines Abos suchen

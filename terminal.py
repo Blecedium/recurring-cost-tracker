@@ -13,7 +13,8 @@ MSG_KEINE_VERTRAEGE = "\nKeine Verträge vorhanden."
 MSG_UNGUELTIGE_EINGABE = "\nUngültige Eingabe."
 MSG_ZURUECK_MENU = "\nDrücke [Enter], um zum Hauptmenü zurückzukehren..."
 MSG_POSITIVE_ZAHL = "\nBitte eine gültige Zahl grösser als 0 eingeben."
-MSG_MENU_ZAHLEN_UNGUELTIG = "\nUngültige Eingabe. Bitte eine Zahl (0-8) eingeben."
+MSG_MENU_ZAHLEN_UNGUELTIG = "\nUngültige Eingabe. Bitte eine Zahl (0-5) eingeben."
+MSG_SUBMENU_ZAHLEN_UNGUELTIG = "\nUngültige Eingabe. Bitte eine Zahl (0-4) eingeben."
 
 
 def clear_screen():
