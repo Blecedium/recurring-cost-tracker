@@ -8,7 +8,6 @@ import contracts
 import calculations
 
 
-
 def kategorie_filtern(vertraege):
     """
     US-07: Nach Kategorie filtern
@@ -20,20 +19,20 @@ def kategorie_filtern(vertraege):
         terminal.wait_2s()
         return
     
-# Leere Liste & keine Duplikate
+    # Leere Liste & keine Duplikate
     kategorien = []
     for vertrag in vertraege:
-        if vertrag ["kategorie"] not in kategorien:
+        if vertrag["kategorie"] not in kategorien:
             kategorien.append(vertrag["kategorie"])
 
-# Verfügbare Kategorien angeben
+    # Verfügbare Kategorien angeben
     print("Verfügbare Kategorien")
     zaehler = 1
     for kat in kategorien:
         print(f" {zaehler}: {kat}")
         zaehler += 1
 
-# Benutzereingabe & Umrechnung auf Listen-Index 
+    # Benutzereingabe & Umrechnung auf Listen-Index 
     eingabe = input(f"Bitte wähle eine Kategorie (1-{len(kategorien)}): ").strip()
     try:
         index = int(eingabe) - 1
@@ -45,18 +44,18 @@ def kategorie_filtern(vertraege):
         terminal.wait_2s()
         return
 
-# Gefundene Verträge in neuer Liste sammeln
+    # Gefundene Verträge in neuer Liste sammeln
     gefundene = []
     for vertrag in vertraege:
-           if vertrag ["kategorie"] == gewaehlte_kat:
+           if vertrag["kategorie"] == gewaehlte_kat:
             gefundene.append(vertrag)
 
-# Ergebnisse in einer Liste ausgegeben
+    # Ergebnisse in einer Liste ausgegeben
     terminal.clear_screen()
     terminal.zeige_titel(f"Verträge in Kategorie '{gewaehlte_kat}'")
     terminal.zeige_tabelle(gefundene)
 
-# Warten auf Input
+    # Warten auf Input
     terminal.pause_enter()
 
 
@@ -72,11 +71,10 @@ def kurze_fristen_anzeigen(vertraege):
         terminal.wait_2s()
         return
 
-# Filtern nach Frist <= 30 Tage
-
+    # Filtern nach Frist <= 30 Tage
     kurze_fristen = []
     for vertrag in vertraege:
-        if vertrag ["frist_tage"] <= 30:
+        if vertrag["frist_tage"] <= 30:
             kurze_fristen.append(vertrag)
 
     if not kurze_fristen:

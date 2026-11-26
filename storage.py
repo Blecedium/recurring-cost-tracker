@@ -1,6 +1,8 @@
 """
 Datenhaltung und Dateiverarbeitung
 """
+
+
 import json
 import config
 

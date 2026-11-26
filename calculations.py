@@ -25,6 +25,7 @@ def tage_bis_datum(ablaufdatum_str):
     except (ValueError, IndexError, AttributeError):
         return 999
 
+
 def ablauf_erinnerung_pruefen(vertraege):
     """
     Liegt das Ablaufdatum eines Abos in 7 oder weniger Tagen in der Zukunft,
@@ -37,7 +38,7 @@ def ablauf_erinnerung_pruefen(vertraege):
 
         verbleibende_tage = tage_bis_datum(vertrag["ablaufdatum"])
 
-        #liegt in 7 oder weniger Tagen in der Zukunft (0 bis 7 Tage)
+        # liegt in 7 oder weniger Tagen in der Zukunft (0 bis 7 Tage)
         if 0 <= verbleibende_tage <= 7:
             print(f"Warnung: Das Abonnement '{vertrag['name']}' läuft in {verbleibende_tage} Tagen ab am {vertrag['ablaufdatum']}!")
             warnungen_vorhanden = True
@@ -45,17 +46,18 @@ def ablauf_erinnerung_pruefen(vertraege):
         print("=" * 35)
     return warnungen_vorhanden
 
-# User Story 5
+
 def monatsbetrag_berechnen(betrag, rhythmus):
     """
-    Rechnet nicht-monatliche Verträge auf Monatsbetrag um.
+    US-05: Rechnet nicht-monatliche Verträge auf Monatsbetrag um.
     """
     rhythmus_bereinigt = rhythmus.strip().lower()
     if rhythmus_bereinigt == "jährlich" or rhythmus_bereinigt == "jaerlich":
         return betrag / 12.0
-    #Standard: monatlich
+    # Standard: monatlich
     else:
         return betrag
+
 
 def monatsueberblick_anzeigen(vertraege):
     """
@@ -68,7 +70,7 @@ def monatsueberblick_anzeigen(vertraege):
         print(terminal.MSG_KEINE_VERTRAEGE)
         return 0.0
 
-    #Alle eindeutigen Kategorien sammeln
+    # Alle eindeutigen Kategorien sammeln
     kategorien = set()
     for vertrag in vertraege:
         kategorien.add(vertrag["kategorie"])
@@ -95,9 +97,11 @@ def monatsueberblick_anzeigen(vertraege):
 
     return gesamttotal
 
-# User Story 6
+
 def budget_pruefen(vertraege, max_budget):
-    # Warnung bei >= 90 % Auslastung des Monatsbudgets.
+    """
+    US-06: Warnung bei >= 90 % Auslastung des Monatsbudgets.
+    """
     if max_budget <= 0:
         return
 

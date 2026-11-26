@@ -2,12 +2,12 @@
 Recurring Cost Tracker - Hauptprogramm
 """
 
+
 import calculations
 import contracts
 import search_filter
 import storage
 import terminal
-
 
 
 def main():

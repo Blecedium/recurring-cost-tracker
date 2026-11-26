@@ -21,7 +21,7 @@ def clear_screen():
     """
     Funktion um das Terminal zu leeren
     """
-    command = "cls" if os.name =="nt" else "clear"
+    command = "cls" if os.name == "nt" else "clear"
     subprocess.run(command, shell=True)
     print("\n")
 
@@ -58,6 +58,7 @@ def show_submenu():
     print("0: Zurück zum Hauptmenü")
     print("=" * 35)
 
+
 def wait_2s():
     """
     Lässt das Terminal 2 Sek. warten
@@ -86,15 +87,16 @@ def zeige_titel(titel):
     print(f"\n--- {titel.upper()} ---")
 
 
-# Willkommens Nachricht
 def zeige_willkommen():
+    """
+    Willkommens Nachricht
+    """
     print("=" * 55)
     print("WILLKOMMEN BEIM RECURRING COST TRACKER")
     print("Verwalte deine laufenden Fixkosten, behalte dein Budget")
     print("=" * 55 + "\n")
 
 
-# Einheitliche Tabellenausgabe
 def zeige_tabelle(vertraege):
     """
     Gibt eine formatierte Tabelle der Verträge aus inkl. Details
@@ -106,7 +108,7 @@ def zeige_tabelle(vertraege):
     print("=" * 102)
 
     for vertrag in vertraege:
-        # Wenn kein Ablaufdatum existiert dann -
+        # Wenn kein Ablaufdatum existiert dann "-"
         ablauf = (vertrag["ablaufdatum"] if vertrag.get("ablaufdatum") else "-")
 
         # Rythmus Standard = monatlich
