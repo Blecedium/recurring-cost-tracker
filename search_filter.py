@@ -1,8 +1,11 @@
 """
 Auswertungs-, Filter- und Sortierfunktionen
 """
+
+
 import terminal
 import contracts
+import calculations
 
 
 
@@ -84,22 +87,11 @@ def kurze_fristen_anzeigen(vertraege):
     terminal.pause_enter()
     
 
-
-def berechne_monatsbetrag(vertrag):
-    """
-    US-10: Vertäge nach Kosten sortieren
-    """
-    # Jährliche Beträge durch 12 teilen, um faire Monatskosten zu erhalten
-    if vertrag["rhythmus"] in ["jährlich", "jaehrlich"]:
-        return vertrag["betrag"] / 12
-    return vertrag["betrag"]
-# Hilfsfunktion zu US-10
-
 def kosten_sortieren(vertraege):
     terminal.clear_screen()
     terminal.zeige_titel("VERTRÄGE NACH KOSTEN SORTIERT (TEUERSTE ZUERST)")
 
-    # Prüfen, ob die Liste leer ist (Truthiness)
+    # Prüfen, ob die Liste leer ist
     if not vertraege:
         print(terminal.MSG_KEINE_VERTRAEGE)
         terminal.wait_2s()
@@ -112,8 +104,13 @@ def kosten_sortieren(vertraege):
     anzahl = len(sortierte_vertraege)
     for i in range(anzahl):
         for j in range(i + 1, anzahl):
-            # Monatskosten vergleichen: Ist der hintere Vertrag teuerer, Plätze tauschen
-            if berechne_monatsbetrag(sortierte_vertraege[j]) > berechne_monatsbetrag(sortierte_vertraege[i]):
+
+            # Monatskosten über calculations funktion berechnen
+            preis_j = calculations.monatsbetrag_berechnen(sortierte_vertraege[j]["betrag"], sortierte_vertraege[j]["rhythmus"])
+            preis_i = calculations.monatsbetrag_berechnen(sortierte_vertraege[i]["betrag"], sortierte_vertraege[i]["rhythmus"])
+
+            # Wenn hinterer Vertrag teurer, tauschen
+            if preis_j > preis_i:
                 temp = sortierte_vertraege[i]
                 sortierte_vertraege[i] = sortierte_vertraege[j]
                 sortierte_vertraege[j] = temp
@@ -122,7 +119,7 @@ def kosten_sortieren(vertraege):
     print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Monatsbetrag':<14} | {'Notiz'}")
     print("=" * 70)
     for v in sortierte_vertraege:
-        monats_chf = berechne_monatsbetrag(v)
+        monats_chf = calculations.monatsbetrag_berechnen(v["betrag"], v["rhythmus"])
         print(f"{v['id']:<4} | {v['name']:<15} | {v['kategorie']:<12} | {monats_chf:<10.2f} CHF | {v['notiz']}")
     print("=" * 70)
 

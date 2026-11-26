@@ -1,6 +1,8 @@
 """
 Finanzmathematische Logik und Datumsberechnungen
 """
+
+
 from datetime import date
 import config
 import terminal
