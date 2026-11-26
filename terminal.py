@@ -96,9 +96,25 @@ def zeige_willkommen():
 
 # Einheitliche Tabellenausgabe
 def zeige_tabelle(vertraege):
-    print(f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<10} | {'Frist':<8} | {'Notiz'}")
-    print("=" * 70)
+    """
+    Gibt eine formatierte Tabelle der Verträge aus inkl. Details
+    """
+    print(
+        f"{'ID':<4} | {'Name':<15} | {'Kategorie':<12} | {'Betrag':<11} |"
+        f" {'Rhythmus':<10} | {'Ablauf':<10} | {'Frist':<9} | {'Notiz'}"
+        )
+    print("=" * 102)
+
     for vertrag in vertraege:
-        print(f"{vertrag['id']:<4} | {vertrag['name']:<15} | {vertrag['kategorie']:<12} | "
-            f"{vertrag['betrag']:<7.2f} CHF | {vertrag['frist_tage']:<4} Tage | {vertrag['notiz']}")
-    print("=" * 70)
+        # Wenn kein Ablaufdatum existiert dann -
+        ablauf = (vertrag["ablaufdatum"] if vertrag.get("ablaufdatum") else "-")
+
+        # Rythmus Standard = monatlich
+        rhythmus = vertrag.get("rhythmus", "monatlich")
+
+        print(
+            f"{vertrag['id']:<4} | {vertrag['name']:<15} |"
+            f" {vertrag['kategorie']:<12} | {vertrag['betrag']:<7.2f} CHF |"
+            f" {rhythmus:<10} | {ablauf:<10} | {vertrag['frist_tage']:<4} Tage |"
+            f" {vertrag['notiz']}")
+    print("=" * 102)
