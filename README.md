@@ -23,6 +23,7 @@ Viele Studierende und Privatpersonen verlieren den Überblick über ihre laufend
 Der "Recurring Cost Tracker" löst dieses Problem über eine übersichtliche Konsolenanwendung. Nutzerinnen und Nutzer können ihre bestehenden Verträge erfassen, in einer Gesamtübersicht anzeigen, bearbeiten, nach Kategorien filtern, Verträge mit kurzen Kündigungsfristen gezielt identifizieren sowie gekündigte Verträge löschen. Zusätzlich bietet das Programm eine Monatsauswertung mit Budget-Warnung, eine Kostensortierung sowie eine Textsuche. 
 
 Rolle | Beschreibung
+| :--- | :--- |
 Nutzer/Nutzerin | Erfasst, verwaltet, filtert, durchsucht und löscht eigene Abonnemente und Verträge, um monatliche Fixkosten, Budgets und Kündigungsfristen im Blick zu behalten.
 
 ## User Story
@@ -113,7 +114,7 @@ Akzeptanzkriterien
 ---
 
 ### US-10 Einfache Sortierfunktion für die Anzeige (Vithuschan Jeyatharan)
-Als Nutzer möchte ich Verträge nach Kosten sortieren können. Zum Beispiel, dass ich meine teuersten Abos sofort ganz oben sehen.
+Als Nutzer möchte ich Verträge nach Kosten sortieren können. Zum Beispiel, dass ich meine teuersten Abos sofort ganz oben sehe.
 
 Akzeptanzkriterien:
 Bei Auswahl von „Nach Kosten sortieren“ wird die Liste so sortiert ausgegeben, dass der Vertrag mit dem höchsten Monatsbetrag ganz oben in der ersten Zeile steht.
@@ -121,7 +122,7 @@ Bei Auswahl von „Nach Kosten sortieren“ wird die Liste so sortiert ausgegebe
 ---
 
 ### US-11 Schnelle Textsuche (Vithuschan Jeyatharan)
-Als Nutzer möchte ich nach dem Namen eines Abos suchen können damit ich einen bestimmten Eintrag direkt finde ohne die ganze Liste durchzulesen.
+Als Nutzer möchte ich nach dem Namen eines Abos suchen können, damit ich einen bestimmten Eintrag direkt finde ohne die ganze Liste durchzulesen.
 
 Akzeptanzkriterien:
 Nach Eingabe eines Textbegriffs (z. B. "Spotify") werden alle Verträge aufgelistet, deren Name diesen Text enthält.
@@ -130,7 +131,7 @@ Ergibt die Suche keinen Treffer, wird eine Meldung wie "Kein Vertrag mit dem Suc
 ---
 
 ### US-12 Zusätzliches Notizfeld (Vithuschan Jeyatharan)
-Als Nutzer möchte ich eine kurze Textnotiz zu einem Vertrag hinterlegen können wie zum Beispiel Kundennummer oder Login-E-Mail damit ich alle relevanten Infos zum Abo direkt parat habe.
+Als Nutzer möchte ich eine kurze Textnotiz zu einem Vertrag hinterlegen können, wie zum Beispiel Kundennummer oder Login-E-Mail, damit ich alle relevanten Infos zum Abo direkt parat habe.
 
 Akzeptanzkriterien:
 Beim Erfassen oder Bearbeiten kann eine Textnotiz hinterlegt werden, die in der Vertragsansicht angezeigt wird.
@@ -168,13 +169,10 @@ recurring-cost-tracker/
 ## Team & Aufteilung
 
 Name | Verantwortung / User Stories
-
-Cyrill Schreyvogel | US-01, US-02, US-03, US-09 & US-12: Vertrag erfassen, Gesamtübersicht, Einträge bearbeiten, Vertrag löschen & Notizfeld
-
+| :--- | :--- |
+Cyrill Schreyvogel | US-01, US-02, US-03 & US-12: Vertrag erfassen, Gesamtübersicht, Einträge bearbeiten & Notizfeld
 Babith Sinnathurai | US-04, US-05 & US-06: Ablauf-Erinnerung beim Start, Monatsüberblick & Budget-Warnung (calculations.py)
-
-Thilaxan Balachandran | US-07 & US-08: Nach Kategorie filtern & kurze Kündigungsfristen (<= 30 Tage) anzeigen sowie Projektdokumentation (README.md)
-
+Thilaxan Balachandran | US-07, US-08 & US-09: Nach Kategorie filtern, kurze Kündigungsfristen (<= 30 Tage) anzeigen & Vertrag löschen sowie Projektdokumentation (README.md)
 Vithuschan Jeyatharan | US-10 & US-11: Nach Kosten sortieren & schnelle Textsuche
 
 ## Lizenz
